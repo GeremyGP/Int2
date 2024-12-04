@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Rincón Livias</title>
+    <link rel="stylesheet" href="/css/Estilos.css">
+    <link rel="stylesheet" href="/css/Estilos_Footer.css">
+    <link rel="stylesheet" href="/css/Estilos_Seccion_Anuncio.css">
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+    <script th:src="@{https://kit.fontawesome.com/0db69381a2.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div th:include="componentes/cCliente/inicioInvitado.html::header" th:if="${sesion==null}"></div>
+	<div th:include="componentes/cCliente/inicioCliente.html::header" th:unless="${sesion==null}"></div>
+<main id="main-body">
+    <section id="sobre-nosotros">
+        <div id="info-sobre-nosotros">
+            <h2 class="titulo">Sobre nosotros</h2>
+            <p>En Rincón Livias, nos dedicamos a ofrecer una experiencia gastronómica memorable, combinando ingredientes frescos con recetas que fusionan tradición e innovación. Nuestro equipo se esfuerza por brindar un servicio cálido y un ambiente acogedor, haciendo de cada visita una ocasión especial. ¡Te esperamos para compartir juntos el placer de la buena comida!</p>
+        </div>
+        <div id="imagen-sobre-nosotros">
+            <div id="img01">
+                <img th:src="@{/Multimedia/Img/Nosotros/nosotros2.webp}" alt="imagen01">
+            </div>
+            <div id="img02">
+                <img th:src="@{/Multimedia/Img/Nosotros/nosotros4.jpg}" alt="imagen02">
+            </div>
+        </div>
+    </section>
+    <section id="populares">
+    <h2 id="titulo-populares" class="titulo">Comidas Populares</h2>
+    <div class="contenedor-populares">
+        <div class="contenedor">
+            <div id="prev" onclick="cambiarSeleccion('slider-popular',-1)">&#10094;</div>
+            <div id="next" onclick="cambiarSeleccion('slider-popular',1)">&#10095;</div>
+            <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+				<input type="radio" name="slider-popular" th:id="'s' + ${i}" th:data-index="${i - 1}" th:checked="${i == 1 ? 'checked' : ''}">
+			</th:block>
+			<div class="cartas">
+			    <th:block th:each="comida, iterStat : ${productos}">
+			        <label th:for="'s' + ${iterStat.index + 1}" th:id="'slide' + ${iterStat.index + 1}">
+			            <div class="tarjeta">
+			                <div class="cara front">
+			                    <img th:src="@{/Imagenes/{img} (img=${comida.imagen})}" alt="imagen del plato popular">
+			                    <i class="fa-solid fa-circle-info icono-info"></i>
+			                    <span class="precio" th:text="'$ '+${comida.precio}"></span>
+			                    <h3 class="nombre-comida" th:text="${comida.nombre}">Comida</h3>
+			                    <h2 class="tipo-comida" th:text="${comida.categoria.nombre}">Clasifiacion</h2>
+			                </div>
+			                <div class="cara back">
+			                    <i class="fa-solid fa-circle-chevron-left icono-regresar"></i>
+			                    <h2>Descripción</h2>
+			                    <p th:text="${comida.descripcion}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid ad commodi ?</p>
+			                </div>
+			            </div>
+			        </label>
+			    </th:block>
+			</div>
+			</div>
+            </div>
+            </section>
+            <section id="contacto">
+			    <div class="informacion-contacto">
+			        <h3>Contactanos</h3>
+			        <p><i class="fas fa-map-marker-alt"></i> Javier Perez de Cuellar</p>
+			        <p><i class="fas fa-envelope"></i> correo@gmail.com</p>
+			        <p><i class="fas fa-phone-alt"></i>+51 123456789</p>
+			        <div class="redes-sociales">
+			            <i class="fab fa-facebook-square"></i>
+			            <i class="fab fa-twitter-square"></i>
+			            <i class="fab fa-instagram"></i>
+			        </div>
+			    </div>
+			</section>
+			
+			<div th:include="componentes/cCliente/inicioCliente.html::comentarios" th:unless="${sesion==null}"></div>
+			
+			<section id="seccion-anuncio" th:include="componentes/cCliente/inicioInvitado.html::anuncio" th:if="${sesion==null}"></section>
+			
+			
+		</main>
+		<footer id="footer-documento">
+		    <div id="contenedor-footer01">
+		        <div id="info-empresa-footer01">
+		            <img th:src="@{/Multimedia/Img/Logos/Logo-negro.png}" alt="Logo de la empresa" class="logo-empresa">
+		        </div>
+		        <div id="info-empresa-footer02">
+		            <a th:href="@{/inicio/menu/Lunes}" class="boton-footer">Ver Menú</a>
+		            <!--
+		            <a th:href="@{/version-pro}" class="boton-footer">Reservar</a>
+		            -->
+		        </div>
+		    </div>
+		    <div id="contenedor-footer02">
+		        <div id="info-empresa-footer03">
+		            <h2>Síguenos</h2>
+		            <div id="redes-footer">
+		                <i class="fa-brands fa-facebook icono-footer"></i>
+		                <i class="fa-brands fa-instagram icono-footer"></i>
+		                <i class="fa-brands fa-youtube icono-footer"></i>
+		                <i class="fa-brands fa-x-twitter icono-footer"></i>
+		            </div>
+		        </div>
+		        <div id="info-empresa-footer04">
+		            <div class="seccion-footer">
+		                <h2 class="titulos-footer">El Rincón Livias</h2>
+		                <ul class="lista-enlaces-footer">
+		                    <li><a th:href="@{/inicio}" class="enlaces-footer">Inicio</a></li>
+		                    <li><a href="#sobre-nosotros" class="enlaces-footer">Nosotros</a></li>
+		                    <li><a href="#populares" class="enlaces-footer">Populares</a></li>
+		                    <li><a href="#contacto" class="enlaces-footer">Contacto</a></li>
+		                    <li><a th:href="@{/inicio/loginForm}" class="enlaces-footer">Iniciar sesión</a></li>
+		                </ul>
+		            </div>
+		            <div class="seccion-footer">
+		                <h2 class="titulos-footer">Platos</h2>
+		                <ul class="lista-enlaces-footer">
+		                    <li><a th:href="@{/entradas}" class="enlaces-footer">Entradas</a></li>
+		                    <li><a th:href="@{/platos-principales}" class="enlaces-footer">Platos Principales</a></li>
+		                    <li><a th:href="@{/bebidas}" class="enlaces-footer">Bebidas</a></li>
+		                    <li><a th:href="@{/postres}" class="enlaces-footer">Postres</a></li>
+		                </ul>
+		            </div>
+		            <div class="seccion-footer">
+		                <h2 class="titulos-footer">Centro de ayuda</h2>
+		                <ul class="lista-enlaces-footer">
+		                    <li><a th:href="@{/contacto}" class="enlaces-footer">Contáctanos</a></li>
+		                    <li><a th:href="@{/preguntas-frecuentes}" class="enlaces-footer">Preguntas frecuentes</a></li>
+		                    <li><a th:href="@{/chat-bot}" class="enlaces-footer">Chat Bot</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		</footer>
+		<script th:src="@{/js/Restaurante.js}"></script>	
+</body>
+</html>
