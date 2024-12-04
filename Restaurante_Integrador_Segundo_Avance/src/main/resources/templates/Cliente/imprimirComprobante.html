@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/comprobante.css}">
+</head>
+<body>
+	<div class="comprobante-container">
+        <h2>Detalle del Comprobante</h2>
+        <p><strong>ID Comprobante:</strong> <span th:text="${comprobante.idComprobante}"></span></p>
+        <p><strong>Tipo:</strong> <span th:text="${comprobante.tipo}"></span></p>
+        <p><strong>Número de Comprobante:</strong> <span th:text="${comprobante.numero}"></span></p>
+        <p><strong>IGV:</strong> <span th:text="${comprobante.igv}"></span></p>
+        <p><strong>Total:</strong> <span th:text="${comprobante.total}"></span></p>
+        <p><strong>RUC:</strong> <span th:if="${comprobante.ruc != null}" th:text="${comprobante.ruc}"></span></p>
+        <p><strong>Razón Social:</strong> <span th:if="${comprobante.razonSocial != null}" th:text="${comprobante.razonSocial}"></span></p>
+        <p><strong>Método de Pago:</strong> <span th:text="${comprobante.metodoPago}"></span></p>
+        <p><strong>Fecha de Emisión:</strong> <span th:text="${comprobante.fechaEmision}"></span></p>
+        <p><strong>Estado:</strong> <span th:text="${comprobante.estado}"></span></p>
+
+        <div class="qr-container">
+            <h3>Escanea este código QR para ver el comprobante</h3>
+            <img th:src="'data:image/png;base64,' + ${qrBase64}" alt="Código QR">
+        </div>
+    </div>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <div class="logo">
+                <img th:src="@{/Multimedia/Img/Logos/Logo-blanco.png}" alt="Logo del Restaurante">
+            </div>
+            <div class="restaurant-info">
+                <h2>Rincón Livias</h2>
+                <p>RUC: 12345678901</p>
+                <p>Av. Gourmet 123, Ciudad del Sabor</p>
+                <p>Teléfono: (01) 123-4567</p>
+            </div>
+        </div>
+        <div class="receipt-body">
+            <h3>Comprobante Electrónico</h3>
+            <p><strong>Tipo:</strong><span th:text="${comprobante.tipo}"></span></p>
+            <p><strong>Número:</strong><span th:text="${comprobante.numero}"></span></p>
+            <p><strong>Método de pago:</strong><span th:text="${comprobante.metodoPago}"></span></p>
+            <p><strong>Fecha de emisión:</strong><span th:text="${comprobante.fechaEmision}"></span></p>
+            <p th:if="${comprobante.tipo == 'boleta'}"><strong>Cliente:</strong><span th:text="${comprobante.cliente.nombre}"></span></p>
+            <p th:if="${comprobante.tipo == 'factura'}"><strong>RUC:</strong><span th:text="${comprobante.ruc}"></span></p>
+            <p th:if="${comprobante.tipo == 'factura'}"><strong>Razón Social:</strong><span th:text="${comprobante.razonSocial}"></span></p>
+            <hr>
+            <div class="product-list">
+                <div class="product-header">
+                    <span>Descripción</span>
+                    <span>Cantidad</span>
+                    <span>Precio Unitario</span>
+                    <!-- 
+                    <span>Descuento</span>
+                     -->
+                    <span>Subtotal</span>
+                </div>
+                <div class="product-item" th:each="itemProducto : ${productos}">
+                    <span th:text="${itemProducto.nombreProducto}"></span>
+                    <span th:text="${itemProducto.cantidad}"></span>
+                    <span th:text="'S/ '+${itemProducto.precioUnitario}"></span>
+                    <!-- 
+                    <span th:text="'S/ '+${itemProducto.descuento}"></span>
+                     -->
+                    <span th:text="'S/ '+${itemProducto.subTotal}"></span>
+                </div>
+                <div class="product-summary">
+                    <div class="summary-item">
+                        <span>IGV (18%):</span>
+                        <span th:text="'S/ '+${comprobante.igv}"></span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span th:text="'S/ '+${comprobante.montoTotal}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="receipt-footer">
+	        <div class="qr-container">
+	            
+	            <img th:src="'data:image/png;base64,' + ${qrBase64}" alt="Código QR">
+	        </div>
+            <p><strong>¡Gracias por su preferencia!</strong></p>
+            <p>Puede escanear el QR para descargar su comprobante.</p>
+        </div>
+    </div>
+    <script>
+	    window.onload = function() {
+	        window.print(); // Abrirá el diálogo de impresión automáticamente
+	    };
+	</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/template :: header">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<nav th:replace="/layout/template :: navegacion"></nav>
+			<div class="card mt-5">
+				<div class="card-header"></div>
+				<div class="card-body">
+				<a class="btn btn-primary" href="/pedidos/listar">Regresar</a>
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CODIGO</th>
+									<th scope="col">CODIGO PEDIDO</th>
+									<th scope="col">CODIGO PLATO</th>
+									<th scope="col">NOMBRE PLATO</th>
+									<th scope="col">IMAGEN PLATO</th>
+									<th scope="col">CANTIDAD</th>
+									<th scope="col">PRECIO UNITARIO</th>
+									<th scope="col">DESCUENTO</th>
+									<th scope="col">SUB TOTAL</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="detalle : ${detalles}">
+									<th scope="row" th:text="${detalle.id}"></th>
+									<td th:text="${detalle.pedido.id}"></td>
+									<td th:text="${detalle.plato.id}"></td>
+									<td th:text="${detalle.plato.nombre}"></td>
+									<td>
+    									<img th:src="@{/Imagenes/{img} (img=${detalle.plato.imagen})}" alt="Imagen del Plato" width="90px" height="auto"/>
+									</td>
+									<td th:text="${detalle.cantidad}"></td>
+									<td th:text="${detalle.precioUnitario}"></td>
+									<td th:text="${detalle.descuento != null ? detalle.descuento : 'N/A'}"></td>
+									<td th:text="${detalle.subTotal}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+		</div>		
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="Fragments/Administrador/header.html :: head"></head>
+<style layout:fragment="estiloPagina"></style>
+<body>
+    <header th:replace="Fragments/Administrador/header.html :: encabezado"></header>
+    <nav th:replace="Fragments/Administrador/header.html :: navegador"></nav>
+    <main id="cuerpo-principal">
+    	<div layout:fragment="contenido"></div>
+    </main>
+    <div id="myModal" class="modal" onclick="closeModal()">
+		<span class="close" onclick="closeModal()">&times;</span>
+		<img id="modalImage" class="modal-content" alt="Imagen de la tabla">
+	</div>
+	<script th:src="@{/js/Modal_Imagen.js}"></script>
+</body>
+</html>

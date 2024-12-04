@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rincón Livias</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/Estilo_Pago.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+  </head>
+  <body>
+    <div id="seccion-checkout-01">
+        <div class="contenedor-principal-seccion">
+            <div id="imagen-restaurante">
+                <a th:href="@{/inicio}">
+                    <img th:src="@{/Multimedia/Img/Logos/Logo-negro.png}" alt="Logo-restaurante"/>
+                </a>
+            </div>
+            <div id="contenedor-pago">
+                <div id="info-pago">
+                    <h4>¡Estás a un click de realizar tu pedido!</h4>
+                    <p>Para que podamos tomar tu pedido, necesitamos algunos datos que te tomará menos de un minuto completar.</p>
+                </div>
+                <form id="formulario-pago" th:action="@{/inicio/pagar}" method="post">
+                	<input type="hidden" name="montoTotal" th:value="${total}">
+                    <label for="email"><i class="ti ti-mail-filled"></i>Email</label>
+                    <input type="email" id="email" placeholder="Email" th:value="${cliEmail}" required>
+                    <label for="nombre-apellido"><i class="ti ti-user-filled"></i>Nombre y apellido</label>
+                    <div id="inputs-nombre-apellido">
+                        <input type="text" id="nombre" placeholder="Nombre" th:value="${cliNombre}" required>
+                        <input type="text" id="apellido" placeholder="Apellido" th:value="${cliApellido}" required>
+                    </div>
+                    <label for="telefono"><i class="ti ti-phone-filled"></i>Teléfono</label>
+                    <div class="input-container">
+                        <input id="telefono" type="tel" class="telefono-input" placeholder="999999999" maxlength="9" th:value="${cliTelefono}" required>
+                    </div>
+                    <div id="tipo-comprobante">
+                        <label for="boleta-factura"><i class="ti ti-receipt-2"></i>¿Boleta o Factura?</label>
+                        <select name="tipo" id="selector-tipo-comprobante" onchange="toggleSections()">
+                            <option value="Boleta">Boleta</option>
+                            <option value="Factura">Factura</option>
+                        </select>
+                    </div>
+                    
+                    <div id="contenedor-datos-comprobante">
+                    	<div id="boleta-factura">
+                    	</div>
+                    <!--  
+                        <div id="datos-boleta">
+                            <label for="dni"><i class="ti ti-id"></i>Número de documento de identidad (DNI)</label>
+                            <input id="dni" type="number" placeholder="12345678" maxlength="8"  pattern="\d{8}" required>
+                        </div>
+                        <div id="datos-factura">
+                            <label for="ruc"><i class="ti ti-id-badge-2"></i>RUC</label>
+                            <input id="ruc" type="number" placeholder="12345678" maxlength="11"  pattern="\d{11}" required>
+                            <label for="razon-social"><i class="ti ti-id"></i>Nombre o Razón Social</label>
+                            <input id="razon" type="text" placeholder="Nombre o Razón Social" required>
+                        </div>
+                        -->
+                        <div id="datos-tipo-pago">
+                            <h5>Método de pago</h5>
+                            <button type="button" id="selector-metodo-pago"><img th:src="@{/Multimedia/Img/Logos/Cards_options.png}" alt="opciones de pago">Tarjeta de Crédito o Débito <span>Otros <i class="ti ti-chevron-down"></i></span></button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="selectorModal" tabindex="-1" role="dialog" aria-labelledby="selectorModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="selectorModalLabel">Selecciona una método de pago:</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="selectionForm" th:action="@{/inicio}" method="post"> <!-- Cambia tu-endpoint por la URL correcta -->
+                                                <div class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input" type="radio" name="opcion" id="option1" value="Opción 1" checked required>
+                                                    <label class="form-check-label" for="option1"><img th:src="@{/Multimedia/Img/Logos/Cards_options.png}" alt="opciones de pago" class="mr-2"><span>Tarjeta de Débito o Crédito</span></label>
+                                                </div>
+                                                <input type="hidden" name="modal" value="true"> <!-- Para saber que el envío es desde el modal -->
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="acceptBtn" class="btn btn-primary" form="selectionForm">Aceptar</button> <!-- Enviar el formulario -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formulario-pago-tarjeta">
+                              
+                                <!-- Contenedor del campo de Número de Tarjeta con ícono -->
+                                <label for="numeroTarjeta">Número de Tarjeta:</label>
+                                <div class="input-con-icono">
+                                  <img id="tarjetaIcono" th:src="@{/Multimedia/Img/Logos/Card_default.png}" alt="Tipo de tarjeta" class="icono-tarjeta">
+                                  <input type="text" id="numeroTarjeta" maxlength="16" placeholder="Ingrese el número de tarjeta" oninput="identificarTarjeta()" required>
+                                </div>
+                              
+                                <!-- Otros campos del formulario -->
+                                <label for="nombreTarjeta">Nombre en la Tarjeta:</label>
+                                <input type="text" id="nombreTarjeta" placeholder="Nombre tal como aparece en la tarjeta" required>
+                              
+                                <label for="fechaExpiracion">Fecha de Expiración (MM/AA):</label>
+                                <input type="text" id="fechaExpiracion" placeholder="MM/AA" maxlength="5" required>
+                              
+                                <label for="cvv">Código CVV:</label>
+                                <div class="input-con-icono">
+                                    <img id="tarjetaIcono" th:src="@{/Multimedia/Img/Logos/Card_cvv.png}" alt="Cvv de tarjeta" class="icono-tarjeta">
+                                    <input type="text" id="cvv" placeholder="CVV" maxlength="4" required>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="seccion-checkout-02">
+        <div class="contenedor-principal-seccion">
+        <!-- CONTENEDOR DEL DESCUENTO -->
+        <!-- 
+        <div id="contenedor-descuento">
+                <form id="formulario-descuento" th:action="@{/inicio}" method="post">
+                    <label for="descuento"><i class="ti ti-ticket"></i>¿Tienes un cupón de descuento?</label>
+                    <div id="input-descuento">
+                        <input id="descuento" type="text" placeholder="Q7L4Z920OFF" maxlength="11" required>
+                        <button type="submit" id="boton-descuento">Verificar</button>
+                    </div>
+                </form>
+            </div>
+         -->
+            <div class="linea-separador-horizontal"></div>
+            <div id="resumen-pedido">
+                <div id="contenedor-titulo-resumen">
+                    <h4>Resumen del pedido:</h4>
+                    <div id="conenedor-detalles">
+                        <p>Ver detalles</p>
+                        <button id="boton-detalles"><i class="ti ti-shopping-bag"></i></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="resumenModal" tabindex="-1" role="dialog" aria-labelledby="selectorModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="selectorModalLabel">Tus productos:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <section id="contenedor-productos-carrito">
+									        <div id="titulo-carrito">
+									            <h2>Resumen del pedido:</h2>
+									            
+									        </div>
+									        <div id="lista-productos-carrito">
+									            <div th:each="detalle : ${resumen}" 
+									                 class="item-producto-carrito">
+									                <div class="cantidad-item-producto-carrito">
+									                    <span class="contador-item-carrito" th:text="${detalle.cantidad}"></span>
+									                </div>
+									                <div class="producto-contenido-carrito">
+									                    <img th:src="@{/Imagenes/{img}(img=${detalle.producto.imagen})}" alt="Producto" class="producto-imagen-carrito">
+									                    <div class="contenedor-info-producto-carrito">
+									                        <div class="info-producto-carrito-01">
+									                            <h3 class="producto-nombre-carrito" th:text="${detalle.nombreProducto}">Nombre del Producto</h3>
+									                        </div>
+									                        <div class="info-producto-carrito-02">
+									                            <h2 class="producto-precio-carrito" th:text="${detalle.precioUnitario}">Precio</h2>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+									        </div>
+									        <div id="total-productos-carrito">
+									            <h2>Total a pagar:</h2>
+									            <div id="precio-total-carrito">
+									                <span id="simbolo-precio-carrito">$</span>
+									                <span id="numero-precio-carrito" th:text="${total}">0</span>
+									            </div>
+									        </div>
+									    </section>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <a th:href="@{/carrito/listar}" id="editar-productos-pedido" form="selectionForm">Editar productos  <i class="ti ti-edit"></i></a> <!-- Enviar el formulario -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <div id="cantidad-productos">
+                    <div id="total-cantidad-productos">
+                        <h4>Total de productos:</h4>
+                        <span th:text="${cantidad}">0</span>
+                    </div>
+                    <div class="item-cantidad"><h5>Entradas</h5><span th:text="${entradas}">0</span></div>
+                    <div class="item-cantidad"><h5>Platos principales</h5><span th:text="${platosPrincipales}">0</span></div>
+                    <div class="item-cantidad"><h5>Bebidas</h5><span th:text="${bebidas}">0</span></div>
+                    <div class="item-cantidad"><h5>Postres</h5><span th:text="${postres}">0</span></div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <div id="contenedor-total-pedido">
+                    <h4>Total a pagar:</h4>
+                    <div id="precio-total">
+                        <span>$</span>
+                        <span th:text="${total}">0</span>
+                    </div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <button type="submit" id="boton-realizar-compra" form="formulario-pago" onclick="return confirm('Estas seguro de realizar la compra?')">COMPRAR</button>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/Metodo_pago.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#selector-metodo-pago').on('click', function() {
+                $('#selectorModal').modal('show');
+            });
+
+            // Se puede manejar la respuesta después del envío del formulario en el servidor, si es necesario.
+        });
+        $(document).ready(function() {
+            $('#boton-detalles').on('click', function() {
+                $('#resumenModal').modal('show');
+            });
+
+            // Se puede manejar la respuesta después del envío del formulario en el servidor, si es necesario.
+        });
+    </script>
+  </body>
+</html>

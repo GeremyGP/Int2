@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header">
+				<a class="btn btn-primary" th:href="@{/administrador/mesas/listar/activos}"><i class="fa-solid fa-angle-left icono-back"></i> Atrás</a>
+				</div>
+				<div class="card-body">
+				<h3 th:if="ERROR!=null" th:text="${ERROR}" style="color:red"></h3>
+				<h5 th:text="${titulo}"></h5>
+					<form action="#" th:action="@{/administrador/mesas/actualizar}" th:object="${mesa}" method="post">
+					<input type="hidden" name="idMesa" th:value="${mesa.idMesa}">
+						<div class="form-group">
+							<label for="numero">N°</label> 
+							<input type="text" class="form-control" th:value="${mesa.numero}" name="numero">
+						</div>
+						<div class="form-group">
+							<label for="capacidad">Capacidad</label>
+							<input type="number" class="form-control" th:value="${mesa.capacidad}" name="capacidad">
+						</div>
+						<div class="form-group">
+							<label for="estado">Estado</label>
+							<select  class="form-control" id="estado" name="estado" th:field="*{estado}" required>
+	                            <option value="Disponible">Disponible</option>
+	                            <option value="Ocupado">Ocupado</option>
+                        	</select>
+						</div>
+						<div class="form-group">
+							<label for="piso">Piso</label>
+							<input type="number" class="form-control" th:value="${mesa.piso}" name="piso">
+						</div>
+						<div class="form-group col-md-3">
+							<div class="form-check">
+					            <input class="form-check-input" type="checkbox" id="activo" th:field="*{activo}">
+					            <label class="form-check-label" for="activo">
+					                Activo
+					            </label>
+					        </div>
+						</div>
+						<input type="submit" th:value="${btn}" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+</body>
+</html>

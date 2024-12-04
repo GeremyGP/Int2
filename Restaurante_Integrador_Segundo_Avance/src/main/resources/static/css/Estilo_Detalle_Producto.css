@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --color-fondo01: #eaeaea;
+    --color-fondo02: #ffffff;
+    --color-tipo: #000000e0;
+    --color_dorado_01: #CF7500;
+    --color_dorado_02: #F0A500;
+    --color_dorado_claro01: #B8860B;
+    --color_dorado_claro02: #A35709;
+    --color_marron: #4F200D;
+    --color_marron_claro: #6A492B;
+    --color_sin_stock: rgba(0,0,0,0.5);
+    --color-letra-claro: #EEEEEE;
+}
+
+a{
+    text-decoration: none;
+    color: var(--color-letra-claro);
+}
+
+h4{
+    margin: 0;
+    padding: 0;
+    font-size: 1.1rem;
+}
+h5{
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+label{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Libre Baskerville', serif;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+}
+/* Parte izquierda de la pantalla*/
+#seccion-detalle-01{
+    overflow-y: auto;
+    background-color: var(--color-fondo01);
+    height: auto;
+    padding: 2rem 0 4rem 0;
+}
+#regresar{
+    display: flex;
+    align-items: center;
+    width: 15em;
+    column-gap: 0.5em;
+}
+#regresar a{
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: black;
+    text-decoration: none;
+}
+#regresar .icono-back{
+    font-size: 2em;
+    color: black;
+}
+
+#imagen-restaurante img{
+    width: 20%;
+    height: auto;
+}
+.contenedor-principal-seccion{
+    margin: 0 auto;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.4rem;
+}
+#contenedor-imagen-producto{
+	display: flex;
+	justify-content: center;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-fondo02);
+    border: 1px solid gray;
+}
+#contenedor-imagen-producto>img{
+	width: 60%;
+	aspect-ratio: 2 / 1.5;
+	object-fit: contain;
+}
+
+#contenedor-comentarios-producto, #contenedor-comentarios-clientes{
+	display: flex;
+	justify-content: center;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-fondo02);
+    border: 1px solid gray;
+}
+#contenedor-principal-comentario{
+	width: 80%;
+}
+#comentario-cliente{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	row-gap: 1rem;
+}
+#contenedor-principal-comentario>form, #contenedor-comentarios-clientes{
+	display: flex;
+	flex-direction: column;
+	row-gap: 2rem;
+}
+#contenedor-principal-comentario textarea{
+	width: 100%;
+	padding: 1rem
+}
+#btn-comentar{
+	width: max-content;
+	align-self: end;
+	padding: 1rem;
+}
+
+#contenedor-anuncio{
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 1rem;
+}
+
+#contenedor-btn-anuncio>a{
+	padding: 0.5rem;
+	background-color: var(--color_marron_claro);
+	text-decoration: none;
+	transition: 0.2s ease-in-out;
+}
+#contenedor-btn-anuncio>a:hover{
+	color: white;
+	background-color: var(--color_marron);
+}
+.stars {
+    display: flex;
+    flex-direction: row-reverse; /* Ordena las estrellas de derecha a izquierda */
+    justify-content: center;
+    gap: 1.4rem;
+}
+
+.stars input {
+    display: none; /* Ocultar los inputs de tipo radio */
+}
+.stars label {
+     font-size: 2rem;
+     color: #ccc; /* Color de las estrellas no seleccionadas */
+     cursor: pointer;
+}
+
+/* Pintar las estrellas seleccionadas y todas las anteriores */
+.stars input:checked ~ label {
+      color: var(--color_dorado_02);
+}
+
+/* Efecto hover */
+.stars label:hover,
+.stars label:hover ~ label {
+      color: var(--color_dorado_02);
+}
+
+
+
+label{
+    display: block;
+    font-size: 1rem;
+}
+label i{
+    margin-right: 0.5rem;
+}
+
+input{
+    height: 3rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #c2c2c2;
+    outline: none;
+}
+
+  /*PARTE DERECHA DE LA PANTALLA*/
+
+#seccion-detalle-02{
+    height: auto;
+    padding: 4rem 0;
+    background-color: var(--color-fondo02);
+    overflow: hidden;
+}
+.linea-separador-horizontal{
+    height: 1.7px;
+    background-color: #c9c9c9cc;
+}
+#resumen-detalles-producto{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.4rem;
+}
+#contenedor-titulo-producto, #contenedor-precio-producto{
+    display: flex;
+    justify-content: start;
+    font-size: 2rem;
+}
+#contenedor-titulo-producto{
+	flex-direction: column;
+}
+#contenedor-categoria-producto{
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	column-gap: 0.7rem;
+}
+#contenedor-categoria-producto>span{
+	color: var(--color_marron);
+}
+
+#contenedor-calificacion-producto{
+	display: flex;
+	align-items: center;
+}
+#contenedor-descripcion-producto{
+	display: flex;
+	flex-direction: column;
+	row-gap: 1.4rem;
+}
+.estrella-dorada{
+	color: var(--color_dorado_02);
+	font-size: 1.7rem;
+}
+.estrella-gris{
+	color: #ccc;
+	font-size: 1.7rem;
+}
+#resumen-detalles-producto>form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.4rem;
+}
+
+#contenedor-cantidad-carrito{
+	display: flex;
+	align-items: center;
+}
+#contenedor-cantidad-carrito>h4{
+	flex: 1;
+	font-weight: bold;
+}
+#selector-cantidad-carrito{
+	flex: 2;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#aumentar, #reducir{
+	font-size: 2.3rem;
+}
+
+
+#boton-realizar-compra, #btn-comentar{
+    border: 2px solid rgb(0, 0, 0);
+    padding: 1em;
+    transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+#boton-realizar-compra:hover, #btn-comentar:hover{
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+  
+  
+  

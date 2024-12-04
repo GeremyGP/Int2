@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El rincón Livias</title>
+    <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link th:href="@{/css/Carta_Restaurante.css}" rel="stylesheet">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css}" rel="stylesheet">
+    <script th:src="@{https://kit.fontawesome.com/0db69381a2.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+<header id="encabezado-carta">
+	    <div id="contenedor-encabezado-carta">
+	        <div id="tipo-carta">
+                <div id="contenedor-carta">
+                     <form th:action="@{/puestos/cerrar}" method="POST">
+                		<button type="submit" onclick="return confirm('Estas seguro de cerrar sesión')"><span id="boton-carta">Cerrar Sesión</span></button>
+                	</form>
+                </div>
+                <div id="contenedor-menu">
+                	<a th:href="@{/puestos/cocinero/pedidos/Pendiente}" style="text-decoration:none;"><span id="boton-carta">Ver pedidos</span></a>
+                </div>
+            </div>
+	        
+	    </div>
+	</header>
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<div class="card mt-5">
+				<div class="card-header d-flex justify-content-between align-items-center">
+				<a class="btn btn-primary" th:href="@{/puestos/cocinero/pedidos/{estado}(estado=${pedido.estado})}">Regresar</a>
+				<form th:if="${terminado == false} and ${pedido.estado == 'En proceso'}" th:action="@{/puestos/cocinero/actualizarPedido}" th:object="${pedido}" method="POST">
+										<input type="hidden" name="idPedido" th:value="${pedido.idPedido}">
+										<input type="hidden" name="estado" th:value="'Entregado'">
+										<input type="submit" th:value="'Terminar Pedido'" class="btn btn-warning" onclick="return confirm('Estas seguro de terminar el pedido?')">
+									</form>
+				</div>
+				<div class="card-body">
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CODIGO PEDIDO</th>
+									<th scope="col">NOMBRE PRODUCTO</th>
+									<th scope="col">IMAGEN PRODUCTO</th>
+									<th scope="col">CANTIDAD</th>
+									<th scope="col">ESTADO</th>
+									<th scope="col" th:if="${pedido.estado == 'En proceso'}">ACCIÓN</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="detalle : ${detalles}">
+									<td th:text="${detalle.pedido.idPedido}"></td>
+									<td th:text="${detalle.producto.nombre}"></td>
+									<td>
+    									<img th:src="@{/Imagenes/{img} (img=${detalle.producto.imagen})}" alt="Imagen del Plato" width="90px" height="auto"/>
+									</td>
+									<td th:text="${detalle.cantidad}"></td>
+									<td th:text="${detalle.estado == true? 'Listo' : 'No listo'}"></td>
+									<td th:if="${detalle.estado == true} and ${pedido.estado == 'En proceso'}">
+										<form th:action="@{/puestos/cocinero/desactivarDetalle/{id}(id=${detalle.idDetallePedido})}" method="POST">
+										    <button class="btn btn-danger" type="submit" th:text="Desactivar" onclick="return confirm('Estas seguro de deactivar el detalle?')"></button>
+										</form>
+									</td>
+									<td th:if="${detalle.estado != true} and ${pedido.estado == 'En proceso'}">
+										<form th:action="@{/puestos/cocinero/activarDetalle/{id}(id=${detalle.idDetallePedido})}" method="POST">
+										    <button class="btn btn-primary" type="submit" th:text="Activar" onclick="return confirm('Estas seguro de activar el detalle?')"></button>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+		</div>		
+	</div>
+</div>
+</body>
+</html>

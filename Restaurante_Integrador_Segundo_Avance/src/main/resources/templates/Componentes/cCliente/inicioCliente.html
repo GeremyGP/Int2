@@ -1,0 +1,68 @@
+<div th:fragment="header">
+	<header>
+    <div id="encabezado-restaurante">
+        <div id="contenedor-video">
+            <video th:src="@{/Multimedia/Video/Portada-video.mp4}" autoplay loop muted></video>
+        </div>
+        <div id="contenedor-portada">
+            <div id="portada-navegador">
+                <a th:href="@{/inicio}"><img th:src="@{/Multimedia/Img/Logos/Logo-blanco.png}" alt="Logo-restaurante"></a>
+                <div class="menu-nav" id="menu-movil">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="lista-nav">
+                    <nav>
+                        <ul>
+                            <li><a th:href="@{/inicio}">Inicio</a></li>
+                            <li><a href="#sobre-nosotros">Nosotros</a></li>
+                            <li><a href="#populares">Populares</a></li>
+                            <li><a href="#contacto">Contacto</a></li>
+                            <li>
+                            <form th:action="@{/inicio/cerrar}" method="POST">
+                            	<input type="submit" th:value="'Cerrar sesión'" onclick="return confirm('Estas seguro de cerrar sesión')"></input>
+                            </form>
+                            </li>
+                        </ul>
+                        <!-- AQUI ANTES ERA RESERVACIÓN-->
+                        <div id="cont-reservar">
+                            <a th:href="@{/inicio/pedidos}"><span id="boton-carta">Ver pedidos</span></a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div id="portada-entrada">
+                <div id="texto-portada-entrada">
+                    <h2>Un Rincón de Sabor y Encanto</h2>
+                    <a th:href="@{/carrito/listar}" class="boton-portada"> || Mostrar Menú</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</div>
+
+
+
+
+
+<div th:fragment="comentarios">
+	<section class="contact-wrap">
+			    <div class="contact-in">
+			        <h1>Reseñas</h1>
+			        <form th:action="@{/enviarResena}" method="post">
+			            <input type="text" placeholder="Nombre" class="contact-in-input">
+			            <input type="email" placeholder="Email" class="contact-in-input" required>
+			            <input type="text" placeholder="Asunto" class="contact-in-input">
+			            <textarea placeholder="Descripcion" class="contact-in-textarea"></textarea>
+			            <input type="submit" value="Enviar" class="contact-in-btn">
+			            <input type="reset" value="Limpiar" class="contact-in-btn">
+			        </form>
+			    </div>
+			    <div class="contact-in">
+			        <iframe th:src="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3903.198075863474!2d-76.98691762599313!3d-11.960783840303664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c539d3e9d083%3A0x8d7cfcee22fa5225!2sLas%20Brassas!5e0!3m2!1ses-419!2spe!4v1701835394783!5m2!1ses-419!2spe'" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" frameborder="0"></iframe>
+			    </div>
+			</section>
+</div>
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+            <div layout:fragment="contenido" class="card">
+                <div class="card-header" th:text="${titulo}"></div>
+                <div class="card-body">
+                <a class="btn btn-primary" th:href="@{/administrador/roles/form}">Registrar rol</a>
+                    <a class="btn btn-primary" th:href="@{/administrador/empleados/listar/activos}">Ver Empleados</a>
+                    <div class="table-responsive">
+                        <table class="table mt-3">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">CODIGO</th>
+                                    <th scope="col">EMPLEADO</th>
+                                    <th scope="col">ROL</th>
+                                    <th scope="col">EDITAR</th>
+                                    <th scope="col">ELIMINAR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="rol : ${roles}">
+                                    <th scope="row" th:text="${rol.idRol}"></th>
+                                    <td th:text="${rol.empleado.nombre}+' '+${rol.empleado.apellido}"></td>
+                                    <td th:text="${rol.rolNombre}"></td>
+                                    <td><a class="btn btn-warning"
+                                        th:href="@{/administrador/roles/form/} +${rol.idRol}" th:text="Editar"></a></td>
+                                    <td><a class="btn btn-danger"
+                                        th:href="@{/administrador/roles/eliminar/} +${rol.idRol}" th:text="Eliminar" onclick="return confirm('Estas seguro de eliminar')"></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<div th:fragment="iconoCarritoLogo">
+	<div id="carrito-compras">
+	            <i class="ti ti-shopping-cart-filled"></i>
+	            <span id="contador-carrito" th:text="${cantidad}"></span>
+	 </div>
+</div>
+
+<div th:fragment="btnComprarCarrito">
+	<i class="ti ti-brand-shopee"></i>
+</div>
+
+
+<div th:fragment="verPedidos">
+<div id="tipo-carta">
+                <div id="contenedor-carta">
+                    <form th:action="@{/inicio/cerrar}" method="POST">
+                		<button type="submit" onclick="return confirm('Estas seguro de cerrar sesión')"><span id="boton-carta">Cerrar Sesión</span></button>
+                	</form>
+                </div>
+                <div id="contenedor-menu">
+                <a th:href="@{/inicio/pedidos}"><span id="boton-carta">Ver pedidos</span></a>
+                </div>
+            </div>
+            
+</div>
+
+
+<div th:fragment="carrito">
+<div id="fondo" class="show"></div>
+	<section id="contenedor-productos-carrito" class="show">
+	    <div id="titulo-carrito">
+	        <h2>Carrito de compras</h2>
+	        <form th:action="@{/carrito/clean}" method="POST" th:unless="${#lists.isEmpty(carrito)}">
+		        <button type="submit" class="btn-cantidad-item-carrito btnAgregar-item-carrito">
+		          <i class="ti ti-trash"></i>
+		     	</button>
+		     </form>
+	        <i id="btn-cerrar-carrito" class="ti ti-x"></i>
+	    </div>
+	    <div id="lista-productos-carrito">
+	    	<div class = "item-producto-carrito" th:unless="${#lists.isEmpty(carrito)}" th:each="item : ${carrito}">
+		        <div class="cantidad-item-producto-carrito">
+		            <span class="contador-item-carrito" th:text="${item.cantidad}"></span>
+		        </div>
+		        <div class="producto-contenido-carrito">
+		            <img th:src="@{/Imagenes/{img}(img=${item.producto.imagen})}" alt="Producto" class="producto-imagen-carrito">
+		            <div class="contenedor-info-producto-carrito">
+		                <div class="info-producto-carrito-01">
+		                    <h3 class="producto-nombre-carrito" th:text="${item.producto.nombre}"></h3>
+		                </div>
+		                <div class="info-producto-carrito-02">
+		                    <h2 class="producto-precio-carrito" th:text="${'$ ' + item.producto.precio}"></h2>
+		                    <div class="contenedor-botones-cantidad-carrito">
+		                    <form th:action="@{/carrito/add/{id}(id=${item.producto.idProducto})}" method="POST">
+		                    	<button type="submit" class="btn-cantidad-item-carrito btnAgregar-item-carrito">
+		                            <i class="ti ti-circle-plus"></i>
+		                        </button>
+		                    </form>
+		                    <form th:action="@{/carrito/remove/{id}(id=${item.producto.idProducto})}" method="POST">
+		                    	<button type="submit" class="btn-cantidad-item-carrito btnEliminar-item-carrito">
+		                            <i class="ti ti-circle-minus"></i>
+		                        </button>
+		                    </form>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	        <h2 id="carrito-vacio" th:if="${#lists.isEmpty(carrito)}">El carrito está vacío</h2>
+	    </div>
+	    <div id="total-productos-carrito">
+	        <h2>Total a pagar:</h2>
+	        <div id="precio-total-carrito">
+	            <span id="simbolo-precio-carrito">$</span>
+	            <span id="numero-precio-carrito" th:text="${total}"></span>
+	        </div>
+	        <form id="miFormularioCompra" th:action="@{/inicio/resumenPedido}" method="GET">
+		        <button type="submit" id="btnComprar-carrito">Realizar compra</button>
+		    </form>
+	        
+	    </div>
+	</section>
+</div>

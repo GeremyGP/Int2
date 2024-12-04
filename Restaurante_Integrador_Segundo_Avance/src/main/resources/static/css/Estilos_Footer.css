@@ -1,0 +1,98 @@
+/*Personalizamos el footer del documento principal*/
+
+:root{
+    --color_dorado_01: #CF7500;
+    --color_dorado_02: #F0A500;
+    --color_dorado_claro01: #B8860B;
+    --color_dorado_claro02: #A35709;
+    --color_marron: #4F200D;
+    --color_marron_claro: #6A492B;
+    --color_sin_stock: rgba(0,0,0,0.5);
+}
+
+#footer-documento{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 5em 3em;
+    row-gap: 6em;
+}
+#contenedor-footer01,#contenedor-footer02{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+#info-empresa-footer01{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 30%;
+}
+#info-empresa-footer02{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 60%;
+}
+#info-empresa-footer01 img{
+    width: 70%;
+}
+#info-empresa-footer03{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    width: 20%;
+}
+#info-empresa-footer03 h2{
+    padding-bottom: 0.4em;
+    border-radius: 5px;
+    border-bottom: 5px solid black;
+}
+.boton-footer{
+    padding: 1em 1.5em;
+    color: black;
+    border: 5px solid black;
+    border-radius: 10px;
+    transition: 0.25s ease-in-out;
+}
+.boton-footer:hover{
+    color: white;
+    background-color: black;
+}
+#redes-footer{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+#info-empresa-footer04{
+    display: flex;
+    justify-content: space-evenly;
+    width: 60%;
+}
+.seccion-footer{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5em;
+}
+.seccion-footer>ul>li{
+    margin-bottom: 1em;
+}
+.titulos-footer{
+    color: var(--color_dorado_claro02);
+    font-size: 1.8em;
+    font-weight: bold;
+}
+.enlaces-footer{
+    color: var(--color_marron);
+    font-weight: bold;
+}
+.enlaces-footer:hover{
+    color: var(--color_dorado_claro01);
+}
+.icono-footer{
+    font-size: 2rem;
+    color: black;
+}

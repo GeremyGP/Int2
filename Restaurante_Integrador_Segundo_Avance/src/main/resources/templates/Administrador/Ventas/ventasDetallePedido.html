@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+</head>
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header">
+				</div>
+				<div class="card-body">
+				<h5 th:text="${titulo}"></h5>
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CODIGO PEDIDO</th>
+									<th scope="col">NOMBRE PLATO</th>
+									<th scope="col">IMAGEN PLATO</th>
+									<th scope="col">CANTIDAD</th>
+									<th scope="col">PRECIO UNITARIO</th>
+									<th scope="col">DESCUENTO</th>
+									<th scope="col">SUB TOTAL</th>
+									<th scope="col">ESTADO</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="detalle : ${detalles}">
+									<td th:text="${detalle.pedido.idPedido}"></td>
+									<td th:text="${detalle.producto.nombre}"></td>
+									<td>
+    									<img th:src="@{/Imagenes/{img} (img=${detalle.producto.imagen})}" alt="Imagen del Plato" width="90px" height="auto"/>
+									</td>
+									<td th:text="${detalle.cantidad}"></td>
+									<td th:text="${detalle.precioUnitario}"></td>
+									<td th:text="${detalle.descuento != null ? detalle.descuento : 'N/A'}"></td>
+									<td th:text="${detalle.subTotal}"></td>
+									<td th:text="${detalle.estado == true? 'Listo' : 'No listo'}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+</body>
+</html>

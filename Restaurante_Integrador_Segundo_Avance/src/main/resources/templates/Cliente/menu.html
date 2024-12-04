@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Isabel</title>
+    <link th:href="@{/css/Carta_Restaurante.css}" rel="stylesheet">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+    <script th:src="@{https://kit.fontawesome.com/0db69381a2.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+	<header id="encabezado-carta">
+	    <div id="contenedor-encabezado-carta">
+	        <div id="regresar">
+	            <a th:href="@{/inicio}">
+	                <i class="fa-solid fa-angle-left icono-back"></i>Atrás
+	            </a>
+	        </div>
+	        
+            <div th:include="componentes/cCliente/menuCliente.html::verPedidos" th:unless="${sesion==null}"></div>
+	        
+	        <div th:include="componentes/cCliente/menuCliente.html::iconoCarritoLogo" th:unless="${sesion==null}"></div>
+	        
+	        
+	        
+	    </div>
+	</header>
+	<div th:include="componentes/cCliente/menuCliente.html::carrito" th:unless="${sesion==null}"></div>
+	
+	<main id="cuerpo-carta">
+		<div id="encabezado-main">
+		    <div id="info-encabezado-main">
+		        <h2 id="titulo">MENU</h2>
+		        <p>Bienvenidos a El Rincón Livias, en donde brindamos una experiencia única al paladar. <strong>¡Elija el plato de su preferencia!</strong></p>
+		    </div>
+		    <div id="dias-semana">
+		        <a th:href="@{/inicio/menu/Lunes}">LUN</a>
+		        <a th:href="@{/inicio/menu/Martes}">MAR</a>
+		        <a th:href="@{/inicio/menu/Miércoles}">MIER</a>
+		        <a th:href="@{/inicio/menu/Jueves}">JUE</a>
+		        <a th:href="@{/inicio/menu/Viernes}">VIER</a>
+		        <a th:href="@{/inicio/menu/Sábado}">SAB</a>
+		        <a th:href="@{/inicio/menu/Domingo}">DOM</a>
+		    </div>
+		</div>
+		<div id="cuerpo-main">
+			<div id="contenedor-secciones-dias">
+				<section id="dia-lunes" class="seccion">
+				    <h3 class="titulo-seccion"></h3><!-- PONER DIA DE LA SEMANA -->
+				    <div class="slider-principal">
+				        <!-- Suponiendo que tienes una lista de productos en el modelo con el nombre "platosLunes" -->
+				        <div th:each="menu : ${menuDia}" class="tarjeta" th:attr="data-id=${menu.producto.idProducto}">
+				            <div class="cara front">
+				                <!-- El atributo src de la imagen se establece con Thymeleaf -->
+				                <img th:src="@{/Imagenes/{img} (img=${menu.producto.imagen})}" alt="Imagen del producto">
+				                <i class="fa-solid fa-circle-info icono-info"></i>
+				                <span class="precio">
+				                	<span>$</span>
+				                    <h4 th:text="${menu.producto.precio}"></h4>
+				                </span>
+				                <h3 class="nombre-comida" th:text="${menu.producto.nombre}"></h3>
+				                <div class="calificacion">
+				                <!-- Estrellas doradas según la calificación -->
+							    <span th:each="i : ${#numbers.sequence(1, menu.producto.calificacion)}" class="estrella-dorada"><i class="ti ti-star-filled"></i></span>
+							    <!-- Estrellas grises para completar las 5 -->
+							    <span th:if="${menu.producto.calificacion < 5}" 
+							          th:each="i : ${#numbers.sequence(menu.producto.calificacion + 1, 5)}" class="estrella-gris"><i class="ti ti-star-filled"></i></span>
+				                </div>
+				                <form th:action="@{/carrito/add/{id}(id=${menu.producto.idProducto})}" th:unless="${sesion==null}" method="POST">
+				                	<button class="btnComprar" type="submit" th:include="componentes/cCliente/menuCliente.html::btnComprarCarrito"></button>
+				                </form>
+				            </div>
+				            <div class="cara back">
+				                <i class="fa-solid fa-circle-chevron-left icono-regresar"></i>
+				                <h2>Detalle</h2>
+				                <p th:text="${menu.producto.descripcion}"></p>
+				                <a th:href="@{/inicio/detalleProducto/{id}(id=${menu.producto.idProducto})}" class="btn-detalle-producto">Más detalles</a>
+				            </div>
+				        </div>
+				    </div>
+				</section>
+				
+			</div>
+		</div>
+	</main>
+	<script th:src="@{/js/Carta_Restaurante_Cliente.js}"></script>
+</body>
+</html>

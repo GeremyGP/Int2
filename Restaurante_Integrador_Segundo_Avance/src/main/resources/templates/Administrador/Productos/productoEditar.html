@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header">
+				<a class="btn btn-primary" th:href="@{/administrador/productos/listar/activos}"><i class="fa-solid fa-angle-left icono-back"></i> Atrás</a>
+				</div>
+				<div class="card-body">
+				<h3 th:if="ERROR!=null" th:text="${ERROR}" style="color:red"></h3>
+				<h5 th:text="${titulo}"></h5>
+					<form th:action="@{/administrador/productos/actualizar}" th:object="${producto}" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="idProducto" th:value="${producto.idProducto}">
+						<div class="form-group">
+							<label for="nombre">Nombre</label> 
+							<input type="text" class="form-control" th:value="${producto.nombre}" name="nombre">
+						</div>
+						<div class="form-group">
+							<label for="descripcion">Descripcion</label>
+							<textarea class="form-control" th:field="*{descripcion}" name="descripcion" rows="4" placeholder="Escribe aquí la descripción del producto..."></textarea>
+						</div>
+						<div class="form-group">
+							<label for="precio">Precio</label>
+							<input type="text" class="form-control" th:value="${producto.precio}" name="precio">
+						</div>
+						<div class="form-group">
+						    <label for="categoria">Categoría</label>
+						    <select class="form-control" id="categoria" name="categoria" required>
+						        <option value="" th:text="'-- Seleccione --'"></option>
+						        <option th:each="cat : ${categorias}"
+						                th:value="${cat.idCategoria}"
+						                th:text="${cat.nombre}"
+						                th:selected="${cat.idCategoria == producto.categoria.idCategoria}">
+						        </option>
+						    </select>
+						</div>
+						<div class="form-group">
+		      			<label class="control-label col-sm-2" for="img">Imagen:</label>
+					      <div class="col-sm-10">
+					        <input type="file" class="form-control-file" id="img" name="img">
+					      </div>
+					    </div>
+						<div class="form-group">
+						    <label for="calificacion">Calificación</label>
+						    <select class="form-control" id="calificacion" name="calificacion" required>
+						        <option value="" th:text="'-- Seleccione --'"></option>
+						        <option th:each="i : ${#numbers.sequence(1, 5)}"
+						                th:value="${i}"
+						                th:text="${i}"
+						                th:selected="${i == producto.calificacion}"></option>
+						    </select>
+						</div>
+						<div class="form-group col-md-3">
+							<div class="form-check">
+					            <input class="form-check-input" type="checkbox" id="activo" th:field="*{activo}">
+					            <label class="form-check-label" for="activo">
+					                Activo
+					            </label>
+					        </div>
+						</div>
+
+						<input type="submit" th:value="${btn}" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+</body>
+</html>

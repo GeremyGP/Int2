@@ -1,0 +1,677 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --color-encabezado: #053B50;
+    --color-sub-encabezado: #176B87;
+    --color-boton: #64CCC5;
+    --color-fondo: #EEEEEE;
+    --color-letra-claro: #EEEEEE;
+    --color_dorado_01: #CF7500;
+    --color_dorado_02: #F0A500;
+    --color_dorado_claro01: #B8860B;
+    --color_dorado_claro02: #A35709;
+    --color_marron: #4F200D;
+    --color_marron_claro: #6A492B;
+    --color_sin_stock: rgba(0,0,0,0.5);
+}
+a{
+    text-decoration: none;
+}
+body{
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: 'Libre Baskerville', serif;
+}
+#encabezado-carta{
+    height: 12vh;
+}
+#cuerpo-carta{
+    height: 88vh;
+}
+#contenedor-encabezado-carta{
+    width: 100%;
+    height: 100%;
+    padding: 0 2em 0 2em;
+    background-color: #000000e0!important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 2em;
+}
+
+#regresar{
+    display: flex;
+    align-items: center;
+    width: 15em;
+    column-gap: 0.5em;
+}
+#regresar a{
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: white;
+    text-decoration: none;
+}
+#regresar .icono-back{
+    font-size: 2em;
+    color: white;
+}
+#tipo-carta{
+    display: flex;
+    column-gap: 5em;
+}
+#tipo-carta button{
+	border: none;
+	background-color: transparent;
+	padding: 0;
+}
+#tipo-carta #boton-carta, #tipo-carta #boton-menu{
+    color: white;
+    border: solid 2px white;
+    font-size: 1.2em;
+    padding: 0.5em 1em;
+    transition: 0.3s ease-in-out;
+}
+#tipo-carta #boton-carta:hover{
+    color: #000;
+    background-color: white;
+}
+#tipo-carta #boton-menu:hover{
+    color: #000;
+    background-color: white;
+}
+
+/*LOGO CARRITO*/
+#carrito-compras{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    color: white;
+}
+#contador-carrito{
+    font-size: 0.6em;
+    padding: 4px 10px;
+    background-color: darkgoldenrod;
+    border-radius: 50%;
+}
+
+
+/*FONDO*/
+#fondo{
+    display: none;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+}
+#fondo.show{
+    display: block;
+}
+
+/*CONTENEDOR CARRITO*/
+
+
+#contenedor-productos-carrito{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 101;
+    min-width: 400px;
+    max-width: 510px;
+    height: 100vh;
+    background-color: #000;
+    padding: 20px;
+    transform: translatex(100%);
+    transition: transform 0.5s ease-in-out;
+    row-gap: 15px;
+}
+#contenedor-productos-carrito.show{
+    transform: translatex(0px);
+}
+
+
+/*ENCABEZADO DEL CARRITO*/
+#titulo-carrito{
+    flex: 0.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-letra-claro);
+    padding-bottom: 12px;
+    border-bottom: 5px solid #333;
+}
+#titulo-carrito>i{
+    font-size: 2em;
+}
+#lista-productos-carrito{
+    flex: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+#carrito-vacio{
+    font-size: 1em;
+    color: var(--color-letra-claro);
+}
+
+
+/*ITEM DEL CARRITO*/
+.item-producto-carrito{
+    max-width: 100%;
+    min-height: 120px;
+    max-height: 120px;
+    display: flex;
+    border: 5px solid #000;
+    overflow: hidden;
+}
+.cantidad-item-producto-carrito{
+    flex: 0.5;
+    border: 4px solid #333;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contador-item-carrito{
+    font-size: 2em;
+    color: var(--color-letra-claro);
+}
+.producto-contenido-carrito{
+    display: flex;
+    flex: 2;
+    background-color: white;
+}
+.producto-imagen-carrito{
+    max-width: 35%;
+    width: 35%;
+    object-fit: contain;
+    transform: scale(0.8);
+}
+.contenedor-info-producto-carrito{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.info-producto-carrito-01{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 5px;
+    align-items: center;
+}
+.info-producto-carrito-02{
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.producto-nombre-carrito{
+    font-size: clamp(1em, 1vw, 20px);
+    color: #333;
+}
+.producto-precio-carrito{
+    font-size: clamp(1em, 1vw, 10px);
+    flex: 1 0 auto;
+}
+.contenedor-botones-cantidad-carrito{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 5px;
+}
+
+/*PIE DEL CARRITO*/
+
+#total-productos-carrito{
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+
+#total-productos-carrito>h2{
+    color: var(--color-letra-claro);
+    text-align: center;
+    font-size: 1.2em;
+}
+
+
+#precio-total-carrito{
+    display: flex;
+    font-size: 1.5em;
+    color: var(--color-letra-claro);
+    padding: 10px;
+    background-color: var(--color_dorado_claro01);
+    border-radius: 7px;
+    column-gap: 20px;
+}
+
+#btnComprar-carrito{
+    flex: 0 0 auto;
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-letra-claro);
+    border: none;
+    border-radius: 10px;
+    padding: 20px 15px;
+    background-color: var(--color_marron);
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.805);
+}
+
+#btnComprar-carrito:hover{
+    transform: scale(1.1);
+    background-color: var(--color_dorado_claro02);
+}
+
+
+.btn-cantidad-item-carrito{
+    padding: 10px 25px;
+    background-color: var(--color_dorado_claro01);
+    border-radius: 5px;
+    color: var(--color-letra-claro);
+    font-size: 1.3em;
+    transition: color, background-color 0.3s ease-in-out;
+    border: none;
+}
+
+.btn-cantidad-item-carrito:hover{
+    color: var(--color_dorado_02);
+    background-color: var(--color_marron_claro);
+}
+.btn-cantidad-item-carrito{
+    padding: 7px 15px;
+}
+
+
+
+
+
+
+
+
+
+#encabezado-main{
+    height: 20%;
+    width: 100%;
+    padding: 0.2em 1.5em;
+    display: flex;
+    grid-template-columns: repeat(auto-fit,minmax(1em,1fr));
+    justify-content: space-around;
+    align-items: center;
+    overflow-x: hidden;
+}
+#cuerpo-main{
+    height: 80%
+}
+
+#encabezado-main #info-encabezado-main{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+#titulo{
+    font-size: 2.5em;
+    font-weight: bold;
+}
+#dias-semana{
+    display: flex;
+    font-size: clamp(1.3em, 1.7vw, 30px);
+    max-width: 100%;
+    column-gap: 1em;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#dias-semana a{
+    position: relative;
+    color: gray;
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+#dias-semana  a:hover{
+    color: darkgoldenrod;
+}
+#info-encabezado-main{
+    font-size: clamp(1em, 1vw, 90px);
+}
+
+#contenedor-secciones-dias{
+    height: 95%;
+    display: flex;
+    overflow-x: hidden;
+    margin: 0 5em;
+}
+.seccion{
+    row-gap: 1em;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    min-width: 100%;
+    height: 100%;
+    border-top: solid 2px gray;
+    padding: 1em 0em 0 0em;
+    overflow: hidden;
+}
+
+.slider-principal{
+    max-width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    column-gap: 3%;
+    row-gap: 7%;
+    overflow: auto;
+    padding-bottom: 1em;
+    padding: 1em 0 1em 1em;
+}
+
+.titulo-seccion{
+    font-size: 2em;
+    padding-left: 1.5em;
+    font-weight: bold;
+    position: relative;
+}
+.titulo-seccion::before{
+    content: "";
+    position: absolute;
+    display: block;
+    left: 0.7em;
+    width: 0.3em;
+    height: 100%;
+    border-radius: 1em;
+    background-color: darkgoldenrod;
+}
+
+
+.comida-entrada, .comida-segundo, .comida-bebida{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90em;
+}
+
+/*Estilos de las tarjetas*/
+
+.front img{
+    width: 160%;
+}
+.tarjeta{
+    position: relative;
+    flex: 0 1 22.5%;
+    height: 15em;
+}
+
+.tarjeta .cara{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.5s;
+    color: white;
+}
+.tarjeta .front{
+    transform: perspective(600px)  rotatey(0deg);
+}
+.tarjeta .front img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.tarjeta .front .icono-info, .tarjeta .back .icono-regresar{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 2em;
+    color: white;
+}
+.tarjeta .front .precio{
+    position: absolute;
+    color: white;
+    display: flex;
+    column-gap: 0.2em;
+    font-weight: bold;
+    right: 0;
+    top: 0;
+    height: 1.8em;
+    line-height: 1.8em;
+    padding:0 0.7em;
+    font-size: 1.5em;
+    background-color: #0000007e;
+}
+.tarjeta .front .nombre-comida, .tarjeta .front .calificacion, .btnComprar{
+    position: absolute;
+    color: white;
+    font-size: clamp(1em, 1.5vw, 20px);
+    font-weight: bold;
+    height: 2em;
+    line-height: 2em;
+    padding: 0 0.7em;
+    background-color: #0000007e;
+}
+.tarjeta .front .nombre-comida{
+    bottom: 2.5em;
+}
+.tarjeta .front .calificacion	{
+    bottom: 0;
+}
+.estrella-dorada{
+	color: var(--color_dorado_02);
+	font-size: 1.7rem;
+}
+.estrella-gris{
+	color: gray;
+	font-size: 1.7rem;
+}
+.tarjeta .back{
+    padding: 2em 1em 0.7em 1em;
+    transform: perspective(600px) rotateY(180deg);
+    background-color: darkgoldenrod;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    box-shadow: 0 5px 10px #000;
+}
+
+.tarjeta .back h2{
+    font-size: 1.7em;
+}
+.tarjeta .back p{
+    letter-spacing: 1px;
+    font-size: 0.8em;
+}
+
+.tarjeta .back .btn-detalle-producto{
+	background-color: var(--color_marron_claro);
+	color: white;
+	border-radius:5px;
+	width: 80%;
+	padding: 0.5rem 0;
+	transition: 0.3s ease-in-out;
+}
+.tarjeta .back .btn-detalle-producto:hover{
+	background-color: var(--color_marron);
+}
+.front.show{
+    transform: perspective(600px) rotateY(180deg);
+}
+.back.show{
+    transform: perspective(600px) rotateY(360deg);
+}
+
+.btnComprar{
+    height: auto;
+    font-size: 1.5em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 5px 0 0 0;
+    transition: 0.3s ease-in-out;
+    border: none;
+    border-top: solid 2px gray;
+    border-left: solid 2px gray;
+    padding: 0.2em 0.7em;
+}
+
+.btnComprar:hover{
+    border-color: white;
+    background-color: white;
+    color: #000;
+}
+
+@media only screen and (max-width:580px){
+    /*Navegador*/
+    #contenedor-encabezado-carta{
+        min-height: 7vh;
+    }
+    #tipo-carta{
+        column-gap: 2em;
+    }
+    #tipo-carta #boton-carta, #tipo-carta #boton-menu{
+        font-size: 1em;
+    }
+    /*Info menu*/
+    #encabezado-main{
+        flex-direction: column;
+        padding: 0.7em 1em;
+        row-gap: 0.7em;
+        height: 22vh;
+    }
+    #encabezado-main #info-encabezado-main{
+        font-size: 1em;
+        text-align: center;
+        width: 100%;
+        row-gap: 0.5em;
+    }
+    #dias-semana{
+        width: 95%;
+        align-items: center;
+        font-size: 1.5em;
+        color: gray;
+        column-gap: 1em;
+        height: 2em;
+
+    }
+    #dias-semana  a:hover{
+        color: darkgoldenrod;
+    }
+    
+    #dias-semana a::after{
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        height: 0.2em;
+        width: 100%;
+        border-radius: 5px;
+        background-color: chocolate;
+        opacity: 0;
+    }
+    #dias-semana a:hover::after{
+        opacity: 1;
+    }
+    #cuerpo-main{
+        padding: 0;
+        height: 71vh;
+    }
+    /*Carrito*/
+    #carrito{
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    /*contenedor de los días*/
+    #contenedor-secciones-dias{
+        margin: 0 0.2em;
+        height: 100%;
+    }
+    
+    .seccion{
+        width: 100%;
+        row-gap: 1em;
+        height: 100%;
+    }
+    .slider-principal{
+        padding: 0 0.7em 1em 0.7em;
+        row-gap: 4%;
+    }
+    .titulo-seccion{
+        font-size: 1.5em;
+    }
+    /*TARJETAS*/
+    .tarjeta{
+        position: relative;
+        flex: 0 1 48%;
+        height: 12em;
+    }
+    .tarjeta .front .icono-info, .tarjeta .back .icono-regresar{
+        font-size: 2em;
+    }
+    .tarjeta .front .precio{
+        font-size: 1.2em;
+        height: 2em;
+        line-height: 2em;
+        padding-right: 0.7em;
+        background-color: #0000007e;
+    }
+    .tarjeta .back{
+        padding: 1em 1em 1em 1em;
+        justify-content: space-evenly;
+    }
+    .tarjeta .back h2{
+        display: inline-block;
+        font-size: 1.5em;
+    }
+    .tarjeta .back p{
+        font-size: 0.75em;
+        letter-spacing: 0.1em;
+    }
+    .tarjeta .front .nombre-comida, .tarjeta .front .tipo-comida{
+        font-size: 1.1em;
+        height: 2em;
+        line-height: 2em;
+        padding: 0 0.8em;
+        background-color: #0000007e;
+    }
+    .tarjeta .front .nombre-comida{
+        bottom: 2.4em;
+        width: initial;
+    }
+    .tarjeta .front .tipo-comida{
+        bottom: 0;
+        width: initial;
+    }
+}
+@media only screen and (max-width: 420px){
+    body{
+        font-size: 0.9em;
+    }
+}
+@media only screen and (max-width: 380px){
+    body{
+        font-size: 0.75em;
+    }
+}
+@media only screen and (max-width: 290px){
+    body{
+        font-size: 0.63em;
+    }
+}

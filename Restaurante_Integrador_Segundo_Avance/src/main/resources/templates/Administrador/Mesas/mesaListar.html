@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+    <div layout:fragment="contenido" class="card">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <a class="btn btn-primary" th:href="@{/administrador/mesas/form}">Registrar Mesa</a>
+            <a class="btn btn-primary" th:href="@{/administrador/mesas/listar/activos}">Ver Mesas activos</a>
+            <a class="btn btn-primary" th:href="@{/administrador/mesas/listar/inactivos}">Ver Mesas inactivos</a>
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">CODIGO</th>
+                        <th scope="col">N°</th>
+                        <th scope="col">CAPACIDAD</th>
+                        <th scope="col">ESTADO</th>
+                        <th scope="col">PISO</th>
+                        <th scope="col">ACTIVO</th>
+                        <th scope="col">EDITAR</th>
+                        <th scope="col" th:if="${estado==false}">ELIMINAR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mesa : ${mesas}">
+                        <th scope="row" th:text="${mesa.idMesa}"></th>
+                        <td th:text="${mesa.numero}"></td>
+                        <td th:text="${mesa.capacidad}"></td>
+                        <td th:text="${mesa.estado}"></td>
+                        <td th:text="${mesa.piso}"></td>
+                        <td th:text="${mesa.activo}"></td>
+                        <td><a class="btn btn-warning" th:href="@{/administrador/mesas/form/} +${mesa.idMesa}">Editar</a></td>
+                        <td><a class="btn btn-danger" th:if="${estado==false}" th:href="@{/administrador/mesas/eliminar/} +${mesa.idMesa}" onclick="return confirm('Estas seguro de eliminar')">Eliminar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

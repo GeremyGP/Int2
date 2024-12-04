@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.receipt-container {
+    background-color: white;
+    min-width: 620px;
+    padding: 2rem 5rem;
+    margin: 3rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.64);
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/*Imagen del restaurante*/
+.logo img {
+    width: 11rem;
+    height: auto;
+}
+
+.restaurant-info {
+    text-align: right;
+}
+
+.receipt-body {
+    margin-bottom: 20px;
+}
+
+.receipt-body h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+#receipt-info>p>strong{
+	margin-right: 1rem;
+}
+
+/* Estilo de lista de productos */
+.product-list {
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.product-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 10px;
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-item span, .product-header span {
+    text-align: center;
+}
+
+.product-summary {
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.summary-item.total {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/*Pie del comprobante*/
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.receipt-footer p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+
+

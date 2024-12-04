@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+</head>
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header" th:text="${titulo}">
+				</div>
+				<div class="card-body">
+				<a class="btn btn-primary" th:href="@{/administrador/pedidos/listar}">Todos los pedidos</a>
+					<a class="btn btn-primary" th:href="@{/administrador/pedidos/listar/Online}">Pedidos Online</a>
+					<a class="btn btn-primary" th:href="@{/administrador/pedidos/listar/Local}">Pedidos Locales</a>
+					<div class="container mt-4">
+					    <form th:action="@{${Todos ? '/administrador/pedidos/listar' : (Online ? '/administrador/pedidos/listar/Online' : (Local ? '/administrador/pedidos/listar/Local' : ''))}}" method="GET" id="filtroForm">
+					        <div class="row d-flex align-items-center">
+					            <div class="col-md-3">
+					                <!-- Lista desplegable -->
+					                <label for="estado" class="form-label">Filtrar por estado:</label>
+					                <select class="form-select" id="filtro" name="estado">
+					                    <option  th:each="est : ${estados}" th:value="${est}" th:text="${est}"
+				                        th:selected="${est == nombreEstado}"/>
+					                </select>
+					            </div>
+					            <div class="col-md-1">
+					                <!-- Botón para aplicar el filtro -->
+					                <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+					            </div>
+					        </div>
+					    </form>
+					    </form>
+					    </form>
+					</div>
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CODIGO</th>
+									<th scope="col" th:if="${Local == true} or ${Todos == true}">EMPLEADO</th>
+									<th scope="col" th:if="${Online == true} or ${Todos == true}">CLIENTE</th>
+									<th scope="col">MESA</th>
+									<th scope="col">TIPO</th>
+									<th scope="col">FECHA CREACION</th>
+									<th scope="col">ESTADO</th>
+									
+									<th scope="col">TOTAL</th>
+									<th scope="col">DETALLES</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="pedido: ${pedidos}">
+									<th scope="row" th:text="${pedido.idPedido}"></th>
+									<td th:text="${pedido.empleado != null ? pedido.empleado.nombre : 'N/A'}" th:if="${Local == true} or ${Todos == true}"></td>
+									<td th:text="${pedido.cliente != null ? pedido.cliente.nombre : 'N/A'}" th:if="${Online == true} or ${Todos == true}"></td>
+									<td th:text="${pedido.mesa != null? pedido.mesa.numero : 'N/A'}"></td>
+									<td th:text="${pedido.tipo}"></td>
+									<td th:text="${#dates.format(pedido.fechaCreacion, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="${pedido.total}"></td>
+									<td th:text="${pedido.estado}"></td>
+									<td><a class="btn btn-primary"
+										th:href="@{/administrador/pedidos/detalles/{id}(id=${pedido.idPedido})}">Ver detalles</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+</body>
+</html>

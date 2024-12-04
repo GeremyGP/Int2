@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+</head>
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+				<a class="btn btn-primary" th:href="@{/administrador/clientes/}">PDF</a>
+				<a class="btn btn-primary" th:href="@{/administrador/clientes/form}">Registrar Cliente</a>
+                    <a class="btn btn-primary" th:href="@{/administrador/clientes/listar/activos}">Ver Clientes activos</a>
+                    <a class="btn btn-primary" th:href="@{/administrador/clientes/listar/inactivos}">Ver Clientes inactivos</a>
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CODIGO</th>
+									<th scope="col">NOMBRE</th>
+									<th scope="col">APELLIDO</th>
+									<th scope="col">EMAIL</th>
+									<th scope="col">TELEFONO</th>
+									<th scope="col">DIRECCION</th>
+									<th scope="col">FECHA CREACION</th>
+									<th scope="col">PEDIDOS</th>
+									<th th:unless="${estado==false}" scope="col">DESACTIVAR</th>
+									<th th:if="${estado==false}" scope="col">ACTIVAR</th>
+									<th th:if="${estado==false}" scope="col">ELIMINAR</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="cliente : ${clientes}">
+									<th scope="row" th:text="${cliente.idCliente}"></th>
+									<td th:text="${cliente.nombre}"></td>
+									<td th:text="${cliente.apellido}"></td>
+									<td th:text="${cliente.email}"></td>
+									<td th:text="${cliente.telefono}"></td>
+									<td th:text="${cliente.direccion}"></td>
+									<td th:text="${#dates.format(cliente.fechaCreacion, 'yyyy-MM-dd')}"></td>
+									<td><a class="btn btn-primary"
+										th:href="@{/administrador/pedidos/listar/cliente/} +${cliente.idCliente}">Ver pedidos</a></td>
+									<td th:if="${cliente.activo == true}">
+										<form th:action="@{/administrador/clientes/desactivar/{id}(id=${cliente.idCliente})}" method="POST">
+										    <button class="btn btn-danger" type="submit" th:text="Desactivar" onclick="return confirm('Estas seguro de deactivar el cliente?')"></button>
+										</form>
+									</td>
+									<td th:unless="${cliente.activo == true}">
+										<form th:action="@{/administrador/clientes/activar/}+${cliente.idCliente}" method="POST">
+										    <button class="btn btn-primary" type="submit" th:text="Activar" onclick="return confirm('Estas seguro de activar el cliente?')"></button>
+										</form>
+									</td>
+									<td th:unless="${cliente.activo == true}">
+										<form th:action="@{/administrador/clientes/activar/} +${cliente.idCliente}" method="POST">
+										    <button class="btn btn-danger" type="submit" th:text="Eliminar" onclick="return confirm('Estas seguro de activar el cliente?')"></button>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+		</div>		
+	</div>
+</div>
+</body>
+</html>

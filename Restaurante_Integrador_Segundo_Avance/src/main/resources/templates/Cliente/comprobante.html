@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/Estilo_Comprobante.css}">
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <div class="logo">
+                <img th:src="@{/Multimedia/Img/Logos/Logo-negro.png}" alt="Logo del Restaurante">
+            </div>
+            <div class="restaurant-info">
+                <h2>Rincón Livias</h2>
+                <p>RUC: 12345678901</p>
+                <p>Av. Gourmet 123, Ciudad del Sabor</p>
+                <p>Teléfono: (01) 123-4567</p>
+            </div>
+        </div>
+        <div class="receipt-body">
+        <div id="receipt-info">
+        	<h3>Comprobante Electrónico</h3>
+            <p><strong>Tipo:</strong><span th:text="${comprobante.tipo}"></span></p>
+            <p><strong>Número:</strong><span th:text="${comprobante.numero}"></span></p>
+            <p><strong>Método de pago:</strong><span th:text="${comprobante.metodoPago}"></span></p>
+            <p><strong>Fecha de emisión:</strong><span th:text="${#dates.format(comprobante.fechaEmision, 'dd-MM-yyyy HH:mm:ss')}"></span></p>
+            <p th:if="${comprobante.tipo == 'Boleta'}"><strong>Cliente:</strong><span th:text="${comprobante.pago.cliente.nombre}"></span></p>
+            <p th:if="${comprobante.tipo == 'Factura'}"><strong>RUC:</strong><span th:text="${comprobante.ruc}"></span></p>
+            <p th:if="${comprobante.tipo == 'Factura'}"><strong>Razón Social:</strong><span th:text="${comprobante.razonSocial}"></span></p>
+        </div>
+            <hr>
+            <div class="product-list">
+                <div class="product-header">
+                    <span>Descripción</span>
+                    <span>Cantidad</span>
+                    <span>Precio Unitario</span>
+                    <!-- 
+                    <span>Descuento</span>
+                     -->
+                    <span>Subtotal</span>
+                </div>
+                <div class="product-item" th:each="itemProducto : ${productos}">
+                    <span th:text="${itemProducto.nombreProducto}"></span>
+                    <span th:text="${itemProducto.cantidad}"></span>
+                    <span th:text="'S/ '+${itemProducto.precioUnitario}"></span>
+                    <!-- 
+                    <span th:text="'S/ '+${itemProducto.descuento}"></span>
+                     -->
+                    <span th:text="'S/ '+${itemProducto.subTotal}"></span>
+                </div>
+                <div class="product-summary">
+                    <div class="summary-item">
+                        <span>IGV (18%):</span>
+                        <span th:text="'S/ '+${comprobante.igv}"></span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span th:text="'S/ '+${comprobante.total}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="receipt-footer">
+	        <div class="qr-container">
+	        
+	            <img th:src="'data:image/png;base64,' + ${qrBase64}" alt="Código QR">
+	        </div>
+            <p><strong>¡Gracias por su preferencia!</strong></p>
+            <p>Puede escanear el QR para descargar su comprobante.</p>
+        </div>
+    </div>
+</body>
+</html>

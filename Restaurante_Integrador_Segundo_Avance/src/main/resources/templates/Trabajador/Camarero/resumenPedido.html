@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rincón Livias</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/Estilo_Pago.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+  </head>
+  <body>
+    <div id="seccion-checkout-01">
+        <div class="contenedor-principal-seccion">
+            <div id="imagen-restaurante">
+                <a th:href="@{/carrito/listar}">
+                    <img th:src="@{/Multimedia/Img/Logos/Logo-negro.png}" alt="Logo-restaurante"/>
+                </a>
+            </div>
+            <div id="contenedor-pago">
+                <div id="info-pago">
+                    <h4>¡Estás a un click de realizar tu pedido!</h4>
+                    <p>Para que podamos tomar tu pedido, necesitamos algunos datos que te tomará menos de un minuto completar.</p>
+                </div>
+                <form id="formulario-pago" th:action="@{/puestos/camarero/guardarPedido}" method="post">
+                	<input type="hidden" name="montoTotal" th:value="${total}">
+                	<div id="tipo-comprobante">
+                        <label for="boleta-factura"><i class="ti ti-receipt-2"></i>Elige el número de mesa:</label>
+                        <select id="selector-tipo-comprobante" name="mesa" required>
+	                            <option value="" th:text="'-- Seleccione --'"></option>
+		                        <option  th:each="mesa : ${mesas}" th:value="${mesa.idMesa}" th:text="${mesa.numero}"/>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="seccion-checkout-02">
+        <div class="contenedor-principal-seccion">
+            <div class="linea-separador-horizontal"></div>
+            <div id="resumen-pedido">
+                <div id="contenedor-titulo-resumen">
+                    <h4>Resumen del pedido:</h4>
+                    <div id="conenedor-detalles">
+                        <p>Ver detalles</p>
+                        <button id="boton-detalles"><i class="ti ti-shopping-bag"></i></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="resumenModal" tabindex="-1" role="dialog" aria-labelledby="selectorModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="selectorModalLabel">Tus productos:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <section id="contenedor-productos-carrito">
+									        <div id="titulo-carrito">
+									            <h2>Resumen del pedido:</h2>
+									            
+									        </div>
+									        <div id="lista-productos-carrito">
+									            <div th:each="detalle : ${resumen}" 
+									                 class="item-producto-carrito">
+									                <div class="cantidad-item-producto-carrito">
+									                    <span class="contador-item-carrito" th:text="${detalle.cantidad}"></span>
+									                </div>
+									                <div class="producto-contenido-carrito">
+									                    <img th:src="@{/Imagenes/{img}(img=${detalle.producto.imagen})}" alt="Producto" class="producto-imagen-carrito">
+									                    <div class="contenedor-info-producto-carrito">
+									                        <div class="info-producto-carrito-01">
+									                            <h3 class="producto-nombre-carrito" th:text="${detalle.nombreProducto}">Nombre del Producto</h3>
+									                        </div>
+									                        <div class="info-producto-carrito-02">
+									                            <h2 class="producto-precio-carrito" th:text="${detalle.precioUnitario}">Precio</h2>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+									        </div>
+									        <div id="total-productos-carrito">
+									            <h2>Total a pagar:</h2>
+									            <div id="precio-total-carrito">
+									                <span id="simbolo-precio-carrito">$</span>
+									                <span id="numero-precio-carrito" th:text="${total}">0</span>
+									            </div>
+									        </div>
+									    </section>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <a th:href="@{/carrito/listar}" id="editar-productos-pedido" form="selectionForm">Editar productos  <i class="ti ti-edit"></i></a> <!-- Enviar el formulario -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <!--  
+                <div id="cantidad-productos">
+                    <div id="total-cantidad-productos">
+                        <h4>Total de productos:</h4>
+                        <span th:text="${cantidad}">0</span>
+                    </div>
+                    <div class="item-cantidad"><h5>Entradas</h5><span th:text="${entradas}">0</span></div>
+                    <div class="item-cantidad"><h5>Platos principales</h5><span th:text="${platosPrincipales}">0</span></div>
+                    <div class="item-cantidad"><h5>Bebidas</h5><span th:text="${bebidas}">0</span></div>
+                    <div class="item-cantidad"><h5>Postres</h5><span th:text="${postres}">0</span></div>
+                </div>
+                -->
+                
+                <div class="linea-separador-horizontal"></div>
+                <div id="contenedor-total-pedido">
+                    <h4>Total a pagar:</h4>
+                    <div id="precio-total">
+                        <span>$</span>
+                        <span th:text="${total}">0</span>
+                    </div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <button type="submit" id="boton-realizar-compra" form="formulario-pago">REALIZAR PEDIDO</button>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/Metodo_pago.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#selector-metodo-pago').on('click', function() {
+                $('#selectorModal').modal('show');
+            });
+
+            // Se puede manejar la respuesta después del envío del formulario en el servidor, si es necesario.
+        });
+        $(document).ready(function() {
+            $('#boton-detalles').on('click', function() {
+                $('#resumenModal').modal('show');
+            });
+
+            // Se puede manejar la respuesta después del envío del formulario en el servidor, si es necesario.
+        });
+    </script>
+  </body>
+</html>
+

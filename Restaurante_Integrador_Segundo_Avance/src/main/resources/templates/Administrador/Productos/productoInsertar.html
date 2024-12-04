@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header">
+				<a class="btn btn-primary" th:href="@{/administrador/productos/listar/activos}"><i class="fa-solid fa-angle-left icono-back"></i> Atrás</a>
+				</div>
+				<div class="card-body">
+				<h3 th:if="ERROR!=null" th:text="${ERROR}" style="color:red"></h3>
+				<h5 th:text="${titulo}"></h5>
+					<form action="#" th:action="@{/administrador/productos/insertar}" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="nombre">Nombre</label> 
+							<input type="text" class="form-control" name="nombre">
+						</div>
+						<div class="form-group">
+							<label for="descripcion">Descripcion</label>
+							<textarea class="form-control" name="descripcion" rows="4" placeholder="Escribe aquí la descripción del producto..."></textarea>
+						</div>
+						<div class="form-group">
+							<label for="precio">Precio</label>
+							<input type="text" class="form-control" name="precio">
+						</div>
+						<div class="form-group">
+							<label for="categoria">Categoria</label>
+							<select class="form-control" id="categoria" name="categoria" required>
+	                            <option value="" th:text="'-- Seleccione --'"></option>
+		                        <option  th:each="categoria : ${categorias}" th:value="${categoria.idCategoria}" th:text="${categoria.nombre}"/>
+                        	</select>
+						</div>
+						<div class="form-group">
+							<label for="img">Imagen</label>
+							<input type="file" class="form-control-file" id="img" name="img">
+						</div>
+						<div class="form-group">
+							<label for="calificacion">Calificacion</label>
+							<select  class="form-control" id="calificacion" name="calificacion" required>
+	                            <option value="1">1</option>
+	                            <option value="2">2</option>
+	                            <option value="3">3</option>
+	                            <option value="4">4</option>
+	                            <option value="5">5</option>
+                        	</select>
+						</div>
+						<input type="submit" th:value="${btn}" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+</body>
+</html>

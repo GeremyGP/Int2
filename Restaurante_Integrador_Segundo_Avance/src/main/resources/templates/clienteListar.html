@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/template :: header">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<nav th:replace="/layout/template :: navegacion"></nav>
+			<div class="card mt-5">
+				<div class="card-header"></div>
+				<div class="card-body">
+				<a class="btn btn-primary" href="/clientes/form">Registrar Cliente</a>
+						<table class="table mt-3">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">NOMBRES</th>
+									<th scope="col">APELLIDOS</th>
+									<th scope="col">RUC</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELIMINAR</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="cliente : ${clientes}">
+									<th scope="row" th:text="${cliente.id}"></th>
+									<td th:text="${cliente.nombres}"></td>
+									<td th:text="${cliente.apellidos}"></td>
+									<td th:text="${cliente.ruc}"></td>
+									<td><a class="btn btn-warning"
+										th:href="@{/clientes/form/} +${cliente.id}" th:text="Editar"></a></td>
+									<td><a class="btn btn-danger"
+										th:href="@{/clientes/eliminar/} +${cliente.id}" th:text="Eliminar" onclick="return confirm('Estas seguro de eliminar')"></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+		</div>		
+	</div>
+</div>
+</body>
+</html>

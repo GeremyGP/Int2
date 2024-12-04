@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El rincón Livias</title>
+    <link th:href="@{/css/Carta_Restaurante.css}" rel="stylesheet">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css}" rel="stylesheet">
+    <script th:src="@{https://kit.fontawesome.com/0db69381a2.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+	<header id="encabezado-carta">
+	    <div id="contenedor-encabezado-carta">
+	        <div id="tipo-carta">
+                <div id="contenedor-carta">
+                    <form th:action="@{/puestos/cerrar}" method="POST">
+                		<button type="submit" onclick="return confirm('Estas seguro de cerrar sesión')"><span id="boton-carta">Cerrar Sesión</span></button>
+                	</form>
+                </div>
+                <div id="contenedor-menu">
+                <a th:href="@{/puestos/camarero/pedidos}"><span id="boton-carta">Ver pedidos</span></a>
+                </div>
+            </div>
+	        
+	        <div th:include="componentes/cCliente/menuCliente.html::iconoCarritoLogo" th:unless="${sesion==null}"></div>
+	        
+	        
+	        
+	    </div>
+	</header>
+	<div id="fondo" class="show"></div>
+	<section id="contenedor-productos-carrito" class="show">
+	    <div id="titulo-carrito">
+	        <h2>Carrito de compras</h2>
+	        <i id="btn-cerrar-carrito" class="ti ti-x"></i>
+	    </div>
+	    <div id="lista-productos-carrito">
+	        <div class = "item-producto-carrito" th:unless="${#lists.isEmpty(carrito)}" th:each="item : ${carrito}">
+		        <div class="cantidad-item-producto-carrito">
+		            <span class="contador-item-carrito" th:text="${item.cantidad}"></span>
+		        </div>
+		        <div class="producto-contenido-carrito">
+		            <img th:src="@{/Imagenes/{img}(img=${item.producto.imagen})}" alt="Producto" class="producto-imagen-carrito">
+		            <div class="contenedor-info-producto-carrito">
+		                <div class="info-producto-carrito-01">
+		                    <h3 class="producto-nombre-carrito" th:text="${item.producto.nombre}"></h3>
+		                </div>
+		                <div class="info-producto-carrito-02">
+		                    <h2 class="producto-precio-carrito" th:text="${'$ ' + item.producto.precio}"></h2>
+		                    <div class="contenedor-botones-cantidad-carrito">
+		                    <form th:action="@{/carrito/add/{id}(id=${item.producto.idProducto})}" method="POST">
+		                    	<button type="submit" class="btn-cantidad-item-carrito btnAgregar-item-carrito">
+		                            <i class="ti ti-circle-plus"></i>
+		                        </button>
+		                    </form>
+		                    <form th:action="@{/carrito/remove/{id}(id=${item.producto.idProducto})}" method="POST">
+		                    	<button type="submit" class="btn-cantidad-item-carrito btnEliminar-item-carrito">
+		                            <i class="ti ti-circle-minus"></i>
+		                        </button>
+		                    </form>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	        <h2 id="carrito-vacio" th:if="${#lists.isEmpty(carrito)}">El carrito está vacío</h2>
+	    </div>
+	    <div id="total-productos-carrito">
+	        <h2>Monto total:</h2>
+	        <div id="precio-total-carrito">
+	            <span id="simbolo-precio-carrito">$</span>
+	            <span id="numero-precio-carrito" th:text="${total}"></span>
+	        </div>
+	        <form id="miFormularioCompra" th:action="@{/puestos/camarero/resumenPedido}" method="GET">
+		        <button type="submit" id="btnComprar-carrito">Realizar compra</button>
+		    </form>
+	        
+	    </div>
+	</section>
+	<main id="cuerpo-carta">
+		<div id="encabezado-main">
+		    <div id="info-encabezado-main">
+		        <h2 id="titulo">MENU</h2>
+		        <p>Bienvenidos a El Rincón Livias, en donde brindamos una experiencia única al paladar. <strong>¡Elija el plato de su preferencia!</strong></p>
+		    </div>
+		    <div id="dias-semana">
+		        <a th:href="@{/puestos/camarero/menu/Lunes}">LUN</a>
+		        <a th:href="@{/puestos/camarero/menu/Martes}">MAR</a>
+		        <a th:href="@{/puestos/camarero/menu/Miércoles}">MIER</a>
+		        <a th:href="@{/puestos/camarero/menu/Jueves}">JUE</a>
+		        <a th:href="@{/puestos/camarero/menu/Viernes}">VIER</a>
+		        <a th:href="@{/puestos/camarero/menu/Sábado}">SAB</a>
+		        <a th:href="@{/puestos/camarero/menu/Domingo}">DOM</a>
+		    </div>
+		</div>
+		<div id="cuerpo-main">
+			<div id="contenedor-secciones-dias">
+				<section id="dia-lunes" class="seccion">
+				    <h3 class="titulo-seccion"></h3><!-- PONER DIA DE LA SEMANA -->
+				    <div class="slider-principal">
+				        <!-- Suponiendo que tienes una lista de platos en el modelo con el nombre "platosLunes" -->
+				        <div th:each="menu : ${menuDia}" class="tarjeta" th:attr="data-id=${menu.producto.idProducto}">
+				            <div class="cara front">
+				                <!-- El atributo src de la imagen se establece con Thymeleaf -->
+				                <img th:src="@{/Imagenes/{img} (img=${menu.producto.imagen})}" alt="Imagen del plato">
+				                <i class="fa-solid fa-circle-info icono-info"></i>
+				                <span class="precio">
+				                    <h4 th:text="${menu.producto.precio}"></h4>
+				                </span>
+				                <h3 class="nombre-comida" th:text="${menu.producto.nombre}"></h3>
+				                <h2 class="tipo-comida" th:text="${menu.producto.categoria.nombre}"></h2>
+				                <form th:action="@{/carrito/add/{id}(id=${menu.producto.idProducto})}" th:unless="${sesion==null}" method="POST">
+				                	<button class="btnComprar" type="submit">
+				                		<i class="ti ti-brand-shopee"></i>
+				                	</button>
+				                </form>
+				                
+				            </div>
+				            <div class="cara back">
+				                <i class="fa-solid fa-circle-chevron-left icono-regresar"></i>
+				                <h2>info</h2>
+				                <p th:text="${menu.producto.descripcion}"></p>
+				            </div>
+				        </div>
+				    </div>
+				</section>
+				
+			</div>
+		</div>
+	</main>
+	<script th:src="@{/js/Carta_Restaurante_Camarero.js}"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title th:text="${title}">Rincón Livias</title>
+    <link rel="stylesheet" href="/css/Estilo_Login.css"/>
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+</head>
+<body>
+    <div class="container-main">
+        <div class="container">
+            <form th:action="@{/inicio/login}" method="post">
+                <h2>INICIO DE SESION</h2>
+                <div class="social">
+                    <i class="fa-regular fa-envelope"></i>
+                    <i class="fa-brands fa-microsoft"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                </div>
+                <p>Ingrese su correo y su contraseña</p>
+                <div class="content">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <input type="text" placeholder="Email" required id="emailLog" name="emailLog"/>
+                </div>
+                <div class="content">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Contraseña" required id="claveLog" name="claveLog"/>
+                </div>
+                <button type="submit">Iniciar Sesion</button>
+            </form>
+        </div>
+
+        <div class="container">
+        <form action="" th:object="${usuario}" th:action="@{/inicio/registrar}" method="post">
+          <h2>REGISTRARSE</h2>
+          <div class="social">
+            <i class="fa-regular fa-envelope"></i>
+            <i class="fa-brands fa-microsoft"></i>
+            <i class="fa-brands fa-facebook"></i>
+          </div>
+          <p>Registrese con sus datos personales para acceder a nuestro sitio web</p>
+          <div class="body-content">
+            <div class="document">
+              <div class="content2">
+                <i class="fa-solid fa-circle-user"></i>
+                <input type="text" th:field="*{nombre}" placeholder="Nombre" required />
+              </div>
+              <div class="content2">
+                <i class="fa-solid fa-circle-user"></i>
+                <input type="text" th:field="*{apellido}" placeholder="Apellido" required />
+              </div>
+              <div class="content2">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" th:field="*{email}" placeholder="Email" required />
+              </div>
+            </div>
+            <div class="document">
+              <div class="content2">
+                <i class="fa-solid fa-mobile"></i>
+                <input type="text" th:field="*{telefono}" placeholder="Celular" minlength="1" maxlength="9"/>
+              </div>
+              <div class="content2">
+                <i class="fa-solid fa-location-arrow"></i>
+                <input type="datetime" th:field="*{direccion}" placeholder="Direccion"/>
+              </div>
+              <div class="content2">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" th:field="*{clave}" placeholder="Contraseña" required />
+              </div>
+            </div>
+          </div>
+          <button>Registrarse</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>

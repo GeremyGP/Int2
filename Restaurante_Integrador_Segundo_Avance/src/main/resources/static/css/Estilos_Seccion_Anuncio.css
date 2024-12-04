@@ -1,0 +1,50 @@
+/*Seccion del anuncio */
+:root{
+    --color_dorado_01: #CF7500;
+    --color_dorado_02: #F0A500;
+    --color_dorado_claro01: #B8860B;
+    --color_dorado_claro02: #A35709;
+    --color_marron: #4F200D;
+    --color_marron_claro: #6A492B;
+    --color_sin_stock: rgba(0,0,0,0.5);
+}
+
+#seccion-anuncio{
+    display: flex;
+    width: 100%;
+    height: 22vh;
+    background-color: var(--color_marron);
+}
+.contenedor-seccion-anuncio{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex: 1 1 100%;
+    height: 100%;
+}
+#texto-seccion-anuncio{
+    color: white;
+    width: 80%;
+    font-size: 1.8em;
+}
+#boton01-anuncio:hover{
+    
+    background-color: var(--color_dorado_claro01);
+}
+#boton01-anuncio{
+    color: white;
+    background-color: var(--color_marron_claro);
+    padding: 1.5em 2em;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+#boton02-anuncio{
+    color: black;
+    background-color: var(--color_dorado_claro01);    
+    padding: 1.5em 2em;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+#boton02-anuncio:hover{
+    background-color: var(--color_marron_claro);
+}

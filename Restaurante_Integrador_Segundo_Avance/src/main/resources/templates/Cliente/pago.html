@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Rincón Livias</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<span id="comprobanteId" th:text="${comprobante.idComprobante}" style="display: none;"></span>
+
+<script th:inline="javascript">
+        // Obtener el valor de idComprobante desde Thymeleaf
+        var comprobanteId = document.getElementById("comprobanteId").innerText;
+
+        Swal.fire({
+            title: "Realizando transacción",
+            html: `
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="/Multimedia/Video/Pagando.gif" alt="Imagen de tarjeta" width="120" height="120" style="margin-right: 10px;" />
+                    <img src="/Multimedia/Video/Pagando02_cargando.gif" alt="Imagen de tarjeta" width="30%" height="auto" />
+                </div>
+                <p>Por favor, no recargue la página</p>
+            `,
+            showConfirmButton: false,
+            showCancelButton: false,
+            //cancelButtonColor: "#d33",
+            //cancelButtonText: "Cancelar",
+            timer: 7000,
+            allowOutsideClick: false,
+        }).then((result) => {
+            /*if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+                // Redirigir a un enlace cuando se presiona "Cancelar"
+                window.location.href = "/inicio/resumenPedido"; // Cambia esto por la URL deseada
+            } else*/
+            if (result.dismiss === Swal.DismissReason.timer) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Pago exitoso",
+                    html: `
+                    <br><a href="/inicio" id="button1" style="margin: 20px; font-size: 1.2rem; padding: 15px 25px; background-color: #3085d6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Ir al inicio
+                        </a>
+                        <a href="/inicio/mostrarComprobante/${comprobanteId}" id="button2" style="margin: 20px; font-size: 1.2rem; padding: 15px 25px; background-color: #3ab65c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Ver comprobante
+                        </a><br><br>`,
+                    text: "Gracias por elegirnos!!",
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    allowOutsideClick: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

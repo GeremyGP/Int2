@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+				<h3 th:if="ERROR!=null" th:text="${ERROR}" style="color:red"></h3>
+					<form th:action="@{/administrador/roles/insertar}" method="POST">
+						<div class="form-group">
+							<label for="empleado">Empleado</label>
+							<select class="form-control" id="empleado" name="empleado" required>
+	                            <option value="" th:text="'-- Seleccione --'"></option>
+		                        <option  th:each="empleado : ${empleados}" th:value="${empleado.idEmpleado}" th:text="${empleado.nombre} +' '+ ${empleado.apellido}"/>
+                        	</select>
+						</div>
+						<div class="form-group">
+							<label for="rol">Rol</label>
+							<select class="form-control" id="rol" name="rolNombre" required>
+	                            <option value="" th:text="'-- Seleccione --'"></option>
+		                        <option  th:each="rolNombre : ${roles}" th:value="${rolNombre}" th:text="${rolNombre}"/>
+                        	</select>
+						</div>
+
+						<input type="submit" th:value="${btn}" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+</body>
+</html>

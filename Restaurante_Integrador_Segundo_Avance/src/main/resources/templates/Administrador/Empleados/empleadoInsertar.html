@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+			<div class="card" layout:fragment="contenido">
+				<div class="card-header">
+				<a class="btn btn-primary" th:href="@{/administrador/empleados/listar/activos}"><i class="fa-solid fa-angle-left icono-back"></i> Atrás</a>
+				</div>
+				<div class="card-body">
+				<h3 th:if="ERROR!=null" th:text="${ERROR}" style="color:red"></h3>
+				<h5 th:text="${titulo}"></h5>
+					<form th:action="@{/administrador/empleados/insertar}" method="POST" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="nombre">Nombre</label> 
+							<input type="text" class="form-control" name="nombre">
+						</div>
+						<div class="form-group">
+							<label for="apellido">Apellido</label>
+							<input type="text" class="form-control"  name="apellido">
+						</div>
+						<div class="form-group">
+							<label for="apellido">Email</label>
+							<input type="email" class="form-control"  name="email">
+						</div>
+						<div class="form-group">
+							<label for="telefono">Telefono</label>
+							<input type="text" class="form-control"  name="telefono">
+						</div>
+						<div class="form-group">
+							<label for="salario">Sueldo</label>
+							<input type="text" class="form-control" name="salario">
+						</div>
+						<div class="form-group">
+		      			<label class="control-label col-sm-2" for="img">Imagen:</label>
+					      <div class="col-sm-10">
+					        <input type="file" class="form-control-file" id="img" name="img">
+					      </div>
+					    </div>
+					    <div class="form-group">
+							<label for="rol">Rol</label>
+							<select class="form-control" id="rol" name="rolNombre" required>
+	                            <option value="" th:text="'-- Seleccione --'"></option>
+		                        <option  th:each="rolNombre : ${roles}" th:value="${rolNombre}" th:text="${rolNombre}"/>
+                        	</select>
+						</div>
+						<div class="form-group col-md-3">
+						    <label for="fechaContratacion" class="form-label">FECHA DE CONTRATACION</label>
+						    <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion" required>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="nombre">Clave</label> 
+							<input type="password" class="form-control" name="clave">
+						</div>
+
+						<input type="submit" th:value="${btn}" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+</body>
+</html>

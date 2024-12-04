@@ -1,0 +1,48 @@
+<div th:fragment="header">
+<header>
+    <div id="encabezado-restaurante">
+        <div id="contenedor-video">
+            <video th:src="@{/Multimedia/Video/Portada-video.mp4}" autoplay loop muted></video>
+        </div>
+        <div id="contenedor-portada">
+            <div id="portada-navegador">
+                <a th:href="@{/inicio}"><img th:src="@{/Multimedia/Img/Logos/Logo-blanco.png}" alt="Logo-restaurante"></a>
+                <div class="menu-nav" id="menu-movil">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="lista-nav">
+                    <nav>
+                        <ul>
+                            <li><a th:href="@{/inicio}">Inicio</a></li>
+                            <li><a href="#sobre-nosotros">Nosotros</a></li>
+                            <li><a href="#populares">Populares</a></li>
+                            <li><a href="#contacto">Contacto</a></li>
+                            <li><a th:href="@{/inicio/loginForm}">Iniciar sesión</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div id="portada-entrada">
+                <div id="texto-portada-entrada">
+                    <h2>Un Rincón de Sabor y Encanto</h2>
+                    <a th:href="@{/inicio/menu/Lunes}" class="boton-portada"> || Mostrar Menú</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</div>
+
+<div th:fragment="anuncio">
+			    <div class="contenedor-seccion-anuncio">
+			        <h2 id="texto-seccion-anuncio">Reliza tus pedidos desde casa y revisa tus compras anteriores, solo necesitas una cuenta!</h2>
+			    </div>
+			    <div class="contenedor-seccion-anuncio">
+			        <a th:href="@{/inicio/loginForm}" id="boton01-anuncio">Iniciar Sesión</a>
+			        <span style="color: white; font-size: 3em;">/</span>
+			        <a th:href="@{/inicio/loginForm}" id="boton02-anuncio">Regístrate</a>
+			    </div>
+</div>
+

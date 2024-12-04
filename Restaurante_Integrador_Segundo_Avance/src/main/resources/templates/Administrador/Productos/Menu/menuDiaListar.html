@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<body>
+    <div layout:fragment="contenido" class="card">
+        <div class="card-header" th:text="${titulo}">Lista de Productos</div>
+        <div class="card-body">
+            <a class="btn btn-primary" th:href="@{/administrador/menuDia/form}">Registrar Menu</a>
+            <div class="container mt-4">
+			    <form id="filtroForm" th:action="@{/administrador/menuDia/listar}" method="GET">
+			        <div class="row d-flex align-items-center">
+			            <div class="col-md-3">
+			                <!-- Lista desplegable -->
+			                <label for="diaNombre" class="form-label">Filtrar por día:</label>
+			                <select class="form-select" id="filtro" name="diaNombre">
+			                    <option  th:each="dia : ${dias}" th:value="${dia.nombre}" th:text="${dia.nombre}"
+		                        th:selected="${dia.nombre == diaNombre}"/>
+			                </select>
+			            </div>
+			            <div class="col-md-1">
+			                <!-- Botón para aplicar el filtro -->
+			                <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+			            </div>
+			        </div>
+			    </form>
+			</div>
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">CODIGO</th>
+                        <th scope="col">DIA</th>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">CATEGORIA</th>
+                        <th scope="col">IMAGEN</th>
+                        <th scope="col">EDITAR</th>
+                        <th scope="col">ELIMINAR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="menu : ${menuDia}">
+                        <th scope="row" th:text="${menu.idMenu}"></th>
+                        <td th:text="${menu.dia.nombre}"></td>
+                        <td th:text="${menu.producto.nombre}"></td>
+                        <td th:text="${menu.producto.categoria.nombre}"></td>
+                        <td><img class="imagen-tabla" th:src="@{/Imagenes/{img} (img=${menu.producto.imagen})}" alt="Imagen del Producto" width="90px" height="auto"/></td>
+                        <td><a class="btn btn-warning" th:href="@{/administrador/menuDia/form/} +${menu.idMenu}">Editar</a></td>
+                        <td><a class="btn btn-danger" th:href="@{/administrador/menuDia/eliminar/} +${menu.idMenu}" onclick="return confirm('Estas seguro de eliminar')">Eliminar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

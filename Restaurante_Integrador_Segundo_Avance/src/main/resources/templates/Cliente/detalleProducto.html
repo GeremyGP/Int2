@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rincón Livias</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/Estilo_Detalle_Producto.css}" />
+    <link th:href="@{https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/Multimedia/Img/Logos/Logo-blanco.png}" type="image/x-icon">
+    <script th:src="@{https://kit.fontawesome.com/0db69381a2.js}" crossorigin="anonymous"></script>
+    
+  </head>
+  <body>
+    <div id="seccion-detalle-01">
+        <div class="contenedor-principal-seccion">
+        	<div id="regresar">
+	            <a th:href="@{/carrito/listar}">
+	                <i class="fa-solid fa-angle-left icono-back"></i>Atrás
+	            </a>
+	        </div>
+            <div id="contenedor-imagen-producto">
+                <img alt="imagen del producto" th:src="@{/Imagenes/{img} (img=${imagenProducto})}">
+            </div>
+            <div id="contenedor-comentarios-producto">
+            	<div id="contenedor-principal-comentario" th:unless="${sesion==null}">
+	            	<form th:if="${comentarioPrincipal == null}" th:action="@{/inicio/comentar/{idProducto}(idProducto=${producto.idProducto})}" method="POST">
+		            	<h3>Califica este producto:</h3>
+		            	<div class="stars">
+			                <input type="radio" id="estrella-5" name="calificacion" value="5">
+			                <label for="estrella-5" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-4" name="calificacion" value="4">
+			                <label for="estrella-4" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-3" name="calificacion" value="3">
+			                <label for="estrella-3" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-2" name="calificacion" value="2">
+			                <label for="estrella-2" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-1" name="calificacion" value="1" required checked>
+			                <label for="estrella-1" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+		            	</div>
+		            	<textarea name="texto" rows="4" placeholder="Escribe aquí un comentario del producto..." required></textarea>
+		            	<button type="submit" id="btn-comentar">Agregar comentario</button>
+	            	</form>
+	            	<form th:if="${comentarioPrincipal!=null}" th:action="@{/inicio/comentar/{idProducto}(idProducto=${producto.idProducto})}" th:object="${comentarioPrincipal}" method="POST">
+	            	<input type="hidden" name="idComentario" th:value="${comentarioPrincipal.idComentario}">
+		            	<h3>¿Quieres cambiar de opinión?</h3>
+		            	<div class="stars">
+			                <input type="radio" id="estrella-5" name="calificacion" value="5" th:checked="${comentarioPrincipal.calificacion == 5}">
+			                <label for="estrella-5" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-4" name="calificacion" value="4" th:checked="${comentarioPrincipal.calificacion == 4}">
+			                <label for="estrella-4" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-3" name="calificacion" value="3" th:checked="${comentarioPrincipal.calificacion == 3}">
+			                <label for="estrella-3" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-2" name="calificacion" value="2" th:checked="${comentarioPrincipal.calificacion == 2}">
+			                <label for="estrella-2" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+			                <input type="radio" id="estrella-1" name="calificacion" value="1" th:checked="${comentarioPrincipal.calificacion == 1}" required>
+			                <label for="estrella-1" class="estrella-gris"><i class="ti ti-star-filled"></i></label>
+		            	</div>
+		            	<textarea name="texto" rows="4" placeholder="Escribe aquí un comentario del producto..." th:field="*{texto}" required></textarea>
+		            	<button type="submit" id="btn-comentar">Actualizar comentario</button>
+	            	</form>
+            	</div>
+            	<div th:if="${sesion==null}" id="contenedor-principal-comentario">
+            		<div id="contenedor-anuncio">
+	            		<h3>¿Quieres comentar tu experiencia?</h3>
+	            		<p>Para poder comentar sobre un producto necesitas una cuenta.</p>
+	            		<div id="contenedor-btn-anuncio">
+						        <a th:href="@{/inicio/loginForm}" id="boton01-anuncio">Iniciar sesión o Crear una cuenta</a>
+	            		</div>
+            		</div>
+            	</div>
+            </div>
+            <div id="contenedor-comentarios-clientes">
+            	<h3>Comentarios de otros clientes:</h3>
+            	<th:block th:each="comentario : ${comentarios}">
+	            	<div id="comentario-cliente">
+	            		<h4 th:text="${comentario.cliente.nombre}"></h4>
+	            		<div id="dato-comentario">
+	            		<!-- Estrellas doradas según la calificación -->
+					    <span th:each="i : ${#numbers.sequence(1, comentario.calificacion)}" class="estrella-dorada"><i class="ti ti-star-filled"></i></span>
+					    <!-- Estrellas grises para completar las 5 -->
+					    <span th:if="${comentario.calificacion < 5}" 
+					          th:each="i : ${#numbers.sequence(comentario.calificacion + 1, 5)}" class="estrella-gris"><i class="ti ti-star-filled"></i></span>
+					    <span th:text="${#dates.format(comentario.fechaCreacion, 'yyyy-MM-dd')}"></span>
+	            		</div>
+	            		<p th:text="${comentario.texto}"></p>
+	            	</div>
+	            	<div class="linea-separador-horizontal"></div>
+            	</th:block>
+            </div>
+        </div>
+    </div>
+    <div id="seccion-detalle-02">
+        <div class="contenedor-principal-seccion">
+            
+            <div id="resumen-detalles-producto">
+            	<div class="linea-separador-horizontal"></div>
+                <div id="contenedor-titulo-producto">
+                    <h2 th:text="${producto.nombre}"></h2>
+                    <div id="contenedor-categoria-producto">
+	                    <span th:if="${producto.categoria.nombre == 'Entrada'}">
+				            <i class="ti ti-salad"></i>
+				        </span>
+				        <span th:if="${producto.categoria.nombre == 'Plato Principal'}">
+				            <i class="ti ti-tools-kitchen-2"></i>
+				        </span>
+				        <span th:if="${producto.categoria.nombre == 'Bebida'}">
+				            <i class="ti ti-beer"></i>
+				        </span>
+				        <span th:if="${producto.categoria.nombre == 'Postre'}">
+				            <i class="ti ti-ice-cream"></i>
+				        </span>
+				        <h4 th:text="'( ' + ${producto.categoria.nombre} + ' )'"></h4>
+                    </div>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <div id="contenedor-precio-producto">
+                	<span>$</span>
+                    <span th:text="${producto.precio}">0</span>
+                </div>
+                <div id="contenedor-calificacion-producto">
+                <!-- Estrellas doradas según la calificación -->
+			    <span th:each="i : ${#numbers.sequence(1, producto.calificacion)}" class="estrella-dorada"><i class="ti ti-star-filled"></i></span>
+			    <!-- Estrellas grises para completar las 5 -->
+			    <span th:if="${producto.calificacion < 5}" 
+			          th:each="i : ${#numbers.sequence(producto.calificacion + 1, 5)}" class="estrella-gris"><i class="ti ti-star-filled"></i></span>
+			    <span th:text="'(' + ${producto.calificacion} + ')'"></span>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <div id="contenedor-descripcion-producto">
+                	<h4>Descripción:</h4>
+                	<p th:text="${producto.descripcion}"></p>
+                </div>
+                <div class="linea-separador-horizontal"></div>
+                <form th:if="${sesion!=null}" th:action="@{/carrito/add/{id}(id=${producto.idProducto})}" method="POST">
+	                <div id="contenedor-cantidad-carrito">
+	                	<h4>Cantidad:</h4>
+	                	<div id="selector-cantidad-carrito">
+	                		<i class="ti ti-square-rounded-minus-filled" id="reducir"></i>
+		                	<input type="hidden" name="cantidad" id="cantidad-input">
+		                	<span id="cantidad-span">1</span>
+		                	<span>Unid.</span>
+		                	<i class="ti ti-square-rounded-plus-filled" id="aumentar"></i>
+	                	</div>
+	                </div>
+	                <button type="submit" id="boton-realizar-compra">AGREGAR AL CARRITO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/Metodo_pago.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+		 // Referencias a los elementos
+		    const cantidadSpan = document.getElementById("cantidad-span");
+		    const cantidadInput = document.getElementById("cantidad-input");
+		    const reducirBtn = document.getElementById("reducir");
+		    const aumentarBtn = document.getElementById("aumentar");
+		    
+		 // Inicializar cantidad
+		    let cantidad = 1;
+
+		    // Aumentar cantidad
+		    aumentarBtn.addEventListener("click", () => {
+		    	if(cantidad<10){
+		    		cantidad++;
+		    		actualizarCantidad();
+		    	}
+		    });
+
+		    // Disminuir cantidad (mínimo 0)
+		    reducirBtn.addEventListener("click", () => {
+			      if (cantidad > 1) {
+			    	cantidad--;
+			        actualizarCantidad();
+			      }
+		    });
+
+		    // Actualizar el span y el input oculto
+		    function actualizarCantidad() {
+		      cantidadSpan.textContent = cantidad;
+		      cantidadInput.value = cantidad;
+		    }
+    </script>
+  </body>
+</html>
+

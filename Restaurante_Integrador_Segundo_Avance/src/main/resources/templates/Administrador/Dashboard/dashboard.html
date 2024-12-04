@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/templateAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style layout:fragment="estiloPagina">
+        .dashboard-card {
+            margin: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            width: 100%; /* Ancho completo */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para mejor visualización */
+        }
+        .empleados { background-color: #007bff; }
+        .mesas { background-color: #28a745; }
+        .pedidos { background-color: #dc3545; }
+        .productos { background-color: #17a2b8; height: 600px; overflow-y: auto; } /* Altura ajustada a 600px */
+        .pagos { background-color: #ffc107; }
+        .table-header {
+            background-color: #fff;
+            color: #000;
+        }
+        /* Ajuste adicional para las tablas */
+        table {
+            table-layout: fixed; /* Fijo para mejor alineación */
+            width: 100%; /* Ancho de tabla completo */
+        }
+        th, td {
+            word-wrap: break-word; /* Permitir el salto de línea en las celdas */
+        }
+    </style>
+</head>
+<body>
+    <div class="container pt-5" layout:fragment="contenido">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="dashboard-card empleados">
+                    <h2>Total Empleados</h2>
+                    <h3 th:text="${empleadoCount}"></h3>
+                    <h4>Roles</h4>
+                    <table class="table table-bordered table-header">
+                        <thead>
+                            <tr>
+                                <th>Rol</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="role : ${roles}">
+                                <td th:text="${role.key}"></td>
+                                <td th:text="${role.value}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card mesas">
+                    <h2>Total Mesas</h2>
+                    <h3 th:text="${mesaCount}"></h3>
+                    <h4>Estado de Mesas</h4>
+                    <table class="table table-bordered table-header">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Disponibles</td>
+                                <td th:text="${mesasDisponibles}"></td>
+                            </tr>
+                            <tr>
+                                <td>Ocupadas</td>
+                                <td th:text="${mesasOcupadas}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card pedidos">
+                    <h2>Total Pedidos</h2>
+                    <h3 th:text="${pedidoCount}"></h3>
+                    <h4>Estados de Pedidos</h4>
+                    <table class="table table-bordered table-header">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="entry : ${estadoCounts}">
+                                <td th:text="${entry.key}"></td>
+                                <td th:text="${entry.value}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Pedidos por Origen</h4>
+                    <table class="table table-bordered table-header">
+                        <thead>
+                            <tr>
+                                <th>Origen</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Local</td>
+                                <td th:text="${tipoCounts['Local']}"></td>
+                            </tr>
+                            <tr>
+                                <td>Online</td>
+                                <td th:text="${tipoCounts['Online']}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"> <!-- Cambiado a col-md-12 para ocupar todo el ancho -->
+                <div class="dashboard-card productos" style="height: 800px;"> <!-- Establece una altura específica -->
+                    <h2>Total Productos</h2>
+                    <h3 th:text="${productoCount}"></h3>
+                    <h4>Categorías de Productos</h4>
+                    <table class="table table-bordered table-header">
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Cantidad</th>
+                                <th>Productos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="entry : ${tipoProductoCounts}">
+                                <td th:text="${entry.key}"></td>
+                                <td th:text="${entry.value}"></td>
+                                <td>
+                                    <ul>
+                                        <li th:each="nombre : ${tipoProductoNombres[entry.key]}" th:text="${nombre}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+<div class="col-md-12">
+    <div class="dashboard-card pagos" style="background-color: #ffc107; padding: 20px; border-radius: 10px; font-size: 1.2rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 200%;">
+
+        <h2 style="color: white;">Total Pagos</h2>
+        
+        <!-- Información General de Pagos -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <h4 style="color: #212529;">Monto Total de Pagos</h4>
+                    <h3 th:text="${totalMontoPagos}" style="font-size: 1.8rem; color: #212529;"></h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <h4 style="color: #212529;">Total de Transacciones</h4>
+                    <h3 th:text="${pagoCount}" style="font-size: 1.8rem; color: #212529;"></h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabla de Detalles por Método de Pago (Estilo tipo Excel) -->
+        <h4 style="color: #212529;">Detalles por Método de Pago</h4>
+        <table class="table table-bordered table-hover table-striped" style="background-color: white; font-size: 1.2rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <thead class="table-header">
+                <tr>
+                    <th style="width: 40%; background-color: #f8f9fa;">Método de Pago</th>
+                    <th style="width: 30%; background-color: #f8f9fa;">Cantidad</th>
+                    <th style="width: 30%; background-color: #f8f9fa;">Monto Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="entry : ${metodoPagoCounts}">
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${entry.value}"></td>
+                    <td th:text="${metodoPagoMontos[entry.key]}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Método de Pago con Mayor Monto -->
+        <h4 style="color: #212529;">Método de Pago con Mayor Monto</h4>
+        <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <table class="table table-bordered" style="font-size: 1.2rem;">
+                <tbody>
+                    <tr>
+                        <td><strong>Método:</strong></td>
+                        <td th:text="${metodoMayorMonto}"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monto:</strong></td>
+                        <td th:text="${mayorMonto}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
